@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,14 +9,33 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideBarComponent } from './shared/components/layout/side-bar/side-bar.component';
 import { HeaderComponent } from './shared/components/layout/header/header.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { productsReducer } from './modules/admin/products/store/products.reducer';
+import { categoriesReducer } from './modules/admin/categories/store/categories.reducer';
+import { usersReducer } from './modules/admin/users/store/users.reducer';
+import { CategoryEffects } from './modules/admin/categories/store/categories.effect';
+import { ProductEffects } from './modules/admin/products/store/products.effect';
+import { UserEffects } from './modules/admin/users/store/users.effect';
 @NgModule({
   declarations: [AppComponent, SideBarComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
+    StoreModule.forRoot({
+      products: productsReducer,
+      categories: categoriesReducer,
+      users: usersReducer,
+    }),
+    EffectsModule.forRoot([CategoryEffects, ProductEffects, UserEffects]),
+    StoreRouterConnectingModule.forRoot(),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
   bootstrap: [AppComponent],
