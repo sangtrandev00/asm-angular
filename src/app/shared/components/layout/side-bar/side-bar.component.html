@@ -1,1 +1,23 @@
-<p>side-bar works!</p>
+<mat-nav-list class="sidebar">
+    <a mat-list-item (click)="navigateTo('/admin/dashboard')" routerLink="/admin/dashboard" routerLinkActive="active">
+        <span matListItemTitle>Dashboard</span>
+        <span>Ahihi</span>
+    </a>
+    <h3>Menu Admin</h3>
+    <a mat-list-item (click)="navigateTo('/admin/categories')" routerLink="/admin/categories">
+        <span matListItemTitle>Categories</span>
+        <span>Ahihi</span>
+    </a>
+    <a mat-list-item (click)="navigateTo('/admin/products')" routerLink="/admin/products">
+        <span matListItemTitle>Products</span>
+        <span>Ahihi</span>
+    </a>
+    <a mat-list-item (click)="navigateTo('/admin/orders')" routerLink="/admin/orders">
+        <span matListItemTitle>Orders</span>
+        <span>Ahihi</span>
+    </a>
+    <a mat-list-item (click)="navigateTo('/admin/users')" routerLink="/admin/users">
+        <span matListItemTitle>Users</span>
+        <span>Ahihi</span>
+    </a>
+</mat-nav-list>

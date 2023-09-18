@@ -19,14 +19,26 @@ import { usersReducer } from './modules/admin/users/store/users.reducer';
 import { CategoryEffects } from './modules/admin/categories/store/categories.effect';
 import { ProductEffects } from './modules/admin/products/store/products.effect';
 import { UserEffects } from './modules/admin/users/store/users.effect';
+import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+import { ButtonComponent } from './shared/components/button/button.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
-  declarations: [AppComponent, SideBarComponent, HeaderComponent],
+  declarations: [AppComponent, ButtonComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
+    HeaderComponent,
+    SideBarComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
     MatSidenavModule,
     StoreModule.forRoot({
       products: productsReducer,
@@ -37,7 +49,7 @@ import { UserEffects } from './modules/admin/users/store/users.effect';
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

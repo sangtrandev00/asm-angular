@@ -21,7 +21,8 @@ export class ProductEffects {
         this.productService.getProducts().pipe(
           // Updated service name
           map(
-            (products) => ProductsApiActions.getProductListSuccess({ products }) // Updated action name
+            ({ products }) =>
+              ProductsApiActions.getProductListSuccess({ products }) // Updated action name
           ),
           catchError(
             (error) => of(ProductsApiActions.getProductListFailure({ error })) // Updated action name
