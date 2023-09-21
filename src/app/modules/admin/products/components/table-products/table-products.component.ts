@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -11,6 +16,28 @@ import { BACKEND_DOMAIN } from '../../../../../constant/base-url';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { Store } from '@ngrx/store';
+import { ProductsApiActions } from '../../store/products.actions';
+import { selectProducts } from '../../store/products.selectors';
+
+
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
 /** Constants used to fill up our data base. */
 const FRUITS: string[] = [
   'blueberry',
@@ -58,6 +85,12 @@ const NAMES: string[] = [
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    NgIf,
+    MatDialogModule,
   ],
 })
 export class TableProductsComponent {
@@ -77,33 +110,65 @@ export class TableProductsComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductService) {
+  product!: IProduct;
+  name!: string;
+  oldPrice!: number;
+  discount!: number;
+  images!: string;
+  thumbnail!: string;
+  stockQty!: number;
+  shortDesc!: string;
+  fullDesc!: string;
+
+  constructor(
+    private productService: ProductService,
+    public dialog: MatDialog,
+    public confirmDialog: MatDialog,
+    private store: Store
+  ) {
     // Create 100 users
     // const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-
     // // Assign the data to the data source for the table to render
     // this.dataSource = new MatTableDataSource(users);
-    this.productService.getProducts().subscribe((data) => {
-      console.log(data.products);
 
-      this.dataSource = new MatTableDataSource(data.products);
-      console.log('data source: ', this.dataSource);
+    this.store.select(selectProducts).subscribe((products) => {
+      console.log('data: ', products);
 
-      console.log('paginator: ', this.dataSource.paginator);
-
-      console.log('this paginator: ', this.paginator);
+      this.dataSource = new MatTableDataSource(products);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.productService.getProducts().subscribe((data) => {
+      console.log(data.products);
+
+      this.dataSource = new MatTableDataSource(data.products);
+      console.log('data source: ', this.dataSource);
+      console.log('paginator: ', this.dataSource.paginator);
+      console.log('this paginator: ', this.paginator);
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      this.store.dispatch(
+        ProductsApiActions.getProductList({ products: data.products })
+      );
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+
+    console.log('on changes: ', changes);
+  }
 
   ngAfterViewInit() {
-    console.log('after view init');
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // console.log('after view init');
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -113,6 +178,61 @@ export class TableProductsComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  openModal(productId?: string) {
+    const dialogRef = this.dialog.open(ProductDialogComponent, {
+      data: {
+        _id: '',
+        name: this.name || '',
+        oldPrice: this.oldPrice || 0,
+        discount: this.discount || 0,
+        images: this.images || '',
+        thumbnail: this.thumbnail || '',
+        stockQty: this.stockQty || 1,
+        shortDesc: this.shortDesc || '',
+        fullDesc: this.fullDesc || '',
+      },
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      this.product.name = result;
+    });
+  }
+
+  openEditModal(currentProduct: IProduct) {
+    console.log('current product: ', currentProduct);
+
+    const dialogRef = this.dialog.open(ProductDialogComponent, {
+      data: {
+        name: currentProduct.name || '',
+        oldPrice: currentProduct.oldPrice || 0,
+        discount: currentProduct.discount || 0,
+        images: currentProduct.images || '',
+        thumbnail: currentProduct.thumbnail || '',
+        stockQty: currentProduct.stockQty || 1,
+        shortDesc: currentProduct.shortDesc || '',
+        fullDesc: currentProduct.fullDesc || '',
+        _id: currentProduct._id || '',
+      },
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      // this.product = result;
+    });
+  }
+
+  openConfirmDialog(productId: string) {
+    this.confirmDialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        _id: productId,
+      },
+    });
   }
 }
 

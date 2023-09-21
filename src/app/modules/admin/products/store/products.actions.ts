@@ -17,10 +17,10 @@ export const ProductsApiActions = createActionGroup({
   source: 'Products API',
   events: {
     'Get Product List': props<{
-      products: ReadonlyArray<IProduct>;
+      products: IProduct[];
     }>(),
     'Get Product List Success': props<{
-      products: ReadonlyArray<IProduct>;
+      products: IProduct[];
     }>(),
     'Get Product List Failure': props<{ error: any }>(),
     'Add Product': props<{ product: Omit<IProduct, 'id'> }>(),

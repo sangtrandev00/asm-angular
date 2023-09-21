@@ -19,8 +19,10 @@ export class CategoryEffects {
       ofType(CategoriesApiActions.getCategoryList),
       switchMap(() =>
         this.categoryService.getCategories().pipe(
-          map((categories) =>
-            CategoriesApiActions.getCategoryListSuccess({ categories })
+          map((categoriesResponse) =>
+            CategoriesApiActions.getCategoryListSuccess({
+              categories: categoriesResponse.categories,
+            })
           ),
           catchError((error) =>
             of(CategoriesApiActions.getCategoryListFailure({ error }))
@@ -36,9 +38,9 @@ export class CategoryEffects {
       // Hàm switchMap là gì ?, có chức năng ra sao ?
       switchMap((action) =>
         this.categoryService.addCategory(action.category).pipe(
-          map((newCateogry) => {
+          map((newCateogryResponse) => {
             return CategoriesApiActions.addCategorySuccess({
-              category: newCateogry,
+              category: newCateogryResponse.category,
             });
           }),
           catchError((error) =>
@@ -54,8 +56,10 @@ export class CategoryEffects {
       ofType(CategoriesApiActions.getCategoryById),
       switchMap((action) =>
         this.categoryService.getCategoryById(action.categoryId).pipe(
-          map((category) =>
-            CategoriesApiActions.getCategoryByIdSuccess({ category })
+          map((categoryResponse) =>
+            CategoriesApiActions.getCategoryByIdSuccess({
+              category: categoryResponse.category,
+            })
           ),
           catchError((error) =>
             of(CategoriesApiActions.getCategoryByIdFailure({ error }))
@@ -70,8 +74,10 @@ export class CategoryEffects {
       ofType(CategoriesApiActions.updateCategory),
       switchMap((action) =>
         this.categoryService.updateCategory(action.id, action.category).pipe(
-          map((category) =>
-            CategoriesApiActions.updateCategorySuccess({ category })
+          map((categoryResponse) =>
+            CategoriesApiActions.updateCategorySuccess({
+              category: categoryResponse.category,
+            })
           ),
           catchError((error) =>
             of(CategoriesApiActions.updateCategoryFailure({ error }))

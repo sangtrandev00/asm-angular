@@ -38,10 +38,10 @@ export class ProductEffects {
       switchMap((action) =>
         this.productService.addProduct(action.product).pipe(
           // Updated service name and action name
-          map((newProduct) => {
+          map((newProductResponse) => {
             return ProductsApiActions.addProductSuccess({
               // Updated action name
-              product: newProduct, // Updated property name
+              product: newProductResponse.product, // Updated property name
             });
           }),
           catchError(
@@ -59,7 +59,10 @@ export class ProductEffects {
         this.productService.getProductById(action.productId).pipe(
           // Updated service name and action name
           map(
-            (product) => ProductsApiActions.getProductByIdSuccess({ product }) // Updated action name
+            (productResponse) =>
+              ProductsApiActions.getProductByIdSuccess({
+                product: productResponse.product,
+              }) // Updated action name
           ),
           catchError(
             (error) => of(ProductsApiActions.getProductByIdFailure({ error })) // Updated action name
@@ -76,7 +79,10 @@ export class ProductEffects {
         this.productService.updateProduct(action.id, action.product).pipe(
           // Updated service name and action name
           map(
-            (product) => ProductsApiActions.updateProductSuccess({ product }) // Updated action name
+            (productResponse) =>
+              ProductsApiActions.updateProductSuccess({
+                product: productResponse.product,
+              }) // Updated action name
           ),
           catchError(
             (error) => of(ProductsApiActions.updateProductFailure({ error })) // Updated action name

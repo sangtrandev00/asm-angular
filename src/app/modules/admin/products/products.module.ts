@@ -8,6 +8,8 @@ import { TableProductsComponent } from './components/table-products/table-produc
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { ProductDialogComponent } from './components/product-dialog/product-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [ProductsComponent],
@@ -19,6 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    ProductDialogComponent,
+    ConfirmDialogComponent,
   ],
   providers: [CurrencyPipe],
 })

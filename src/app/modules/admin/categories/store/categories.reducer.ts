@@ -3,7 +3,7 @@ import { CategoriesActions, CategoriesApiActions } from './categories.actions';
 import { ICategory } from 'src/app/models/Category';
 
 export interface CategoryState {
-  categories: ReadonlyArray<ICategory>;
+  categories: ICategory[];
   isLoading: boolean;
   error: any;
   editingCategoryId: string;

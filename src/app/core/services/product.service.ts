@@ -10,6 +10,11 @@ export interface getProductsResponse {
   message: string;
 }
 
+export interface getProductResponse {
+  product: IProduct;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,16 +31,18 @@ export class ProductService {
       );
   }
 
-  addProduct(productData: Omit<IProduct, '_id'>): Observable<IProduct> {
-    return this.http.post<IProduct>(
-      `${BACKEND_DOMAIN}/admin/products`,
+  addProduct(
+    productData: Omit<IProduct, '_id'>
+  ): Observable<getProductResponse> {
+    return this.http.post<getProductResponse>(
+      `${BACKEND_DOMAIN}/admin/product`,
       productData
     );
   }
 
-  getProductById(id: string): Observable<IProduct> {
+  getProductById(id: string): Observable<getProductResponse> {
     return this.http
-      .get<IProduct>(`${BACKEND_DOMAIN}/admin/products/${id}`)
+      .get<getProductResponse>(`${BACKEND_DOMAIN}/admin/products/${id}`)
       .pipe(
         map((product) => {
           return product;
@@ -46,9 +53,12 @@ export class ProductService {
   updateProduct(
     id: string,
     productData: Omit<IProduct, '_id'>
-  ): Observable<IProduct> {
+  ): Observable<getProductResponse> {
     return this.http
-      .put<IProduct>(`${BACKEND_DOMAIN}/admin/products/${id}`, productData)
+      .put<getProductResponse>(
+        `${BACKEND_DOMAIN}/admin/product/${id}`,
+        productData
+      )
       .pipe(
         map((product) => {
           // console.log("product: ", product);

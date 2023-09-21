@@ -5,15 +5,25 @@ import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
 import { ICategory } from 'src/app/models/Category';
 import { map } from 'rxjs/operators';
 
+export interface getCategoriesResponse {
+  categories: ICategory[];
+  message: string;
+}
+
+export interface getCategoryResponse {
+  category: ICategory;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<ICategory[]> {
+  getCategories(): Observable<getCategoriesResponse> {
     return this.http
-      .get<ICategory[]>(`${BACKEND_DOMAIN}/admin/categories`)
+      .get<getCategoriesResponse>(`${BACKEND_DOMAIN}/admin/categories`)
       .pipe(
         map((categories) => {
           return categories || [];
@@ -21,16 +31,18 @@ export class CategoryService {
       );
   }
 
-  addCategory(categoryData: Omit<ICategory, '_id'>): Observable<ICategory> {
-    return this.http.post<ICategory>(
-      `${BACKEND_DOMAIN}/admin/categories`,
+  addCategory(
+    categoryData: Omit<ICategory, '_id'>
+  ): Observable<getCategoryResponse> {
+    return this.http.post<getCategoryResponse>(
+      `${BACKEND_DOMAIN}/admin/category`,
       categoryData
     );
   }
 
-  getCategoryById(id: string): Observable<ICategory> {
+  getCategoryById(id: string): Observable<getCategoryResponse> {
     return this.http
-      .get<ICategory>(`${BACKEND_DOMAIN}/admin/categories/${id}`)
+      .get<getCategoryResponse>(`${BACKEND_DOMAIN}/admin/categories/${id}`)
       .pipe(
         map((category) => {
           return category;
@@ -41,9 +53,12 @@ export class CategoryService {
   updateCategory(
     id: string,
     categoryData: Omit<ICategory, '_id'>
-  ): Observable<ICategory> {
+  ): Observable<getCategoryResponse> {
     return this.http
-      .put<ICategory>(`${BACKEND_DOMAIN}/admin/categories/${id}`, categoryData)
+      .put<getCategoryResponse>(
+        `${BACKEND_DOMAIN}/admin/category/${id}`,
+        categoryData
+      )
       .pipe(
         map((category) => {
           // console.log("category: ", category);

@@ -17,10 +17,10 @@ export const CategoriesApiActions = createActionGroup({
   source: 'Categories API',
   events: {
     'Get Category List': props<{
-      categories: ReadonlyArray<ICategory>;
+      categories: ICategory[];
     }>(),
     'Get Category List Success': props<{
-      categories: ReadonlyArray<ICategory>;
+      categories: ICategory[];
     }>(),
     'Get Category List Failure': props<{ error: any }>(),
     'Add Category': props<{ category: Omit<ICategory, 'id'> }>(),

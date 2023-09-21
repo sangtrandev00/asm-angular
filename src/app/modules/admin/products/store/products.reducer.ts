@@ -4,7 +4,7 @@ import { IProduct } from 'src/app/models/Product'; // Assuming you have an IProd
 
 export interface ProductState {
   // Updated interface name
-  products: ReadonlyArray<IProduct>; // Updated property name
+  products: IProduct[]; // Updated property name
   isLoading: boolean;
   error: any;
   editingProductId: string; // Updated property name
