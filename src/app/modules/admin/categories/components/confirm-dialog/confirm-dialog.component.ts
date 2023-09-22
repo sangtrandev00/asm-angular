@@ -1,13 +1,20 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ICategory } from 'src/app/models/Category';
 import { CategoriesApiActions } from '../../store/categories.actions';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class ConfirmDialogComponent {
   constructor(

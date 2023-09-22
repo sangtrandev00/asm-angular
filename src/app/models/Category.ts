@@ -4,7 +4,7 @@ export interface ICategory {
   name: string;
   cateImage: string;
   description: string;
-  // qtyProducts?: number;
+  products?: number;
   createdAt?: string;
   updatedAt?: string;
   // products?: [IProduct[]];

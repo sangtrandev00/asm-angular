@@ -5,7 +5,8 @@ import { CategoryState } from './categories.reducer';
 
 // export const selectCategories = createFeatureSelector<ReadonlyArray<IPost>>('posts');
 // Create a feature selector for the CategoryState
-export const selectCategoryState = createFeatureSelector<CategoryState>('blog');
+export const selectCategoryState =
+  createFeatureSelector<CategoryState>('categories');
 
 // Create selectors for specific properties within the CategoryState
 export const selectCategories = createSelector(

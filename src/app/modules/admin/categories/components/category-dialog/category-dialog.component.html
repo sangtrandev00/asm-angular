@@ -1,1 +1,31 @@
-<p>category-dialog works!</p>
+<h1 mat-dialog-title> This is category form {{data.name}}</h1>
+<div mat-dialog-content>
+    <form (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
+        <p>Category Name:</p>
+        <mat-form-field class="category-form">
+            <mat-label>Category Name:</mat-label>
+            <input className="category-form__input" matInput formControlName="name">
+
+        </mat-form-field>
+        <p>Category Image:</p>
+        <mat-form-field class="category-form">
+            <mat-label>Category Image:</mat-label>
+            <input className="category-form__input" matInput formControlName="cateImage">
+
+        </mat-form-field>
+        <p>Category Description:</p>
+        <mat-form-field class="category-form">
+            <mat-label>Category Description:</mat-label>
+            <input className="category-form__input" matInput formControlName="description">
+
+        </mat-form-field>
+
+        <div>
+            <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+</div>

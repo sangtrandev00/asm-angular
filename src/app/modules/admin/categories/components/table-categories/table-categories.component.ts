@@ -17,6 +17,7 @@ import { ICategory } from 'src/app/models/Category';
 import { selectCategories } from '../../store/categories.selectors';
 import { CategoriesApiActions } from '../../store/categories.actions';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 
 @Component({
   selector: 'app-table-categories',
@@ -44,10 +45,10 @@ export class TableCategoriesComponent {
   displayedColumns: string[] = [
     '#ID',
     'Name',
-    'Image',
-    'Category',
-    'FinalPrice',
-    'Stock',
+    'CateImage',
+    'Description',
+    'QtyProducts',
+    // 'Stock',
     'Actions',
   ];
   // dataSource: MatTableDataSource<UserData>;
@@ -60,6 +61,7 @@ export class TableCategoriesComponent {
   name!: string;
   cateImage!: string;
   description!: string;
+  products!: number;
   createdAt!: string;
   updatedAt!: string;
 
@@ -73,6 +75,9 @@ export class TableCategoriesComponent {
     // const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
     // // Assign the data to the data source for the table to render
     // this.dataSource = new MatTableDataSource(users);
+
+    console.log('constructor');
+    console.log(this.store);
 
     this.store.select(selectCategories).subscribe((categories) => {
       console.log('data: ', categories);
@@ -98,6 +103,14 @@ export class TableCategoriesComponent {
       this.store.dispatch(
         CategoriesApiActions.getCategoryList({ categories: data.categories })
       );
+
+      this.store.select(selectCategories).subscribe((categories) => {
+        console.log('data: ', categories);
+
+        this.dataSource = new MatTableDataSource(categories);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     });
   }
 
@@ -123,54 +136,46 @@ export class TableCategoriesComponent {
     }
   }
 
-  openModal(productId?: string) {
-    // const dialogRef = this.dialog.open(ProductDialogComponent, {
-    //   data: {
-    //     _id: '',
-    //     name: this.name || '',
-    //     oldPrice: this.oldPrice || 0,
-    //     discount: this.discount || 0,
-    //     images: this.images || '',
-    //     thumbnail: this.thumbnail || '',
-    //     stockQty: this.stockQty || 1,
-    //     shortDesc: this.shortDesc || '',
-    //     fullDesc: this.fullDesc || '',
-    //   },
-    //   width: '600px',
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed', result);
-    //   this.product.name = result;
-    // });
+  openModal() {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      data: {
+        _id: '',
+        name: this.name || '',
+        cateImage: this.cateImage || '',
+        description: this.description || '',
+        products: this.products || 0,
+      },
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      // this.product.name = result;
+    });
   }
 
-  openEditModal(currentProduct: ICategory) {
-    // console.log('current product: ', currentProduct);
-    // const dialogRef = this.dialog.open(ProductDialogComponent, {
-    //   data: {
-    //     name: currentProduct.name || '',
-    //     oldPrice: currentProduct.oldPrice || 0,
-    //     discount: currentProduct.discount || 0,
-    //     images: currentProduct.images || '',
-    //     thumbnail: currentProduct.thumbnail || '',
-    //     stockQty: currentProduct.stockQty || 1,
-    //     shortDesc: currentProduct.shortDesc || '',
-    //     fullDesc: currentProduct.fullDesc || '',
-    //     _id: currentProduct._id || '',
-    //   },
-    //   width: '600px',
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed', result);
-    //   // this.product = result;
-    // });
+  openEditModal(currentCategory: ICategory) {
+    console.log('current catge: ', currentCategory);
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      data: {
+        name: currentCategory.name || '',
+        cateImage: currentCategory.cateImage || 0,
+        description: currentCategory.description || 0,
+        products: currentCategory.products || '',
+        _id: currentCategory._id || '',
+      },
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      // this.product = result;
+    });
   }
 
-  openConfirmDialog(productId: string) {
+  openConfirmDialog(categoryId: string) {
     this.confirmDialog.open(ConfirmDialogComponent, {
       width: '250px',
       data: {
-        _id: productId,
+        _id: categoryId,
       },
     });
   }

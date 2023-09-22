@@ -23,13 +23,16 @@ export const CategoriesApiActions = createActionGroup({
       categories: ICategory[];
     }>(),
     'Get Category List Failure': props<{ error: any }>(),
-    'Add Category': props<{ category: Omit<ICategory, 'id'> }>(),
+    'Add Category': props<{ category: Omit<ICategory, '_id'> }>(),
     'Add Category Success': props<{ category: ICategory }>(), // Action for success
     'Add Category Failure': props<{ error: any }>(), // Action for failure
     'Get Category By Id': props<{ categoryId: string }>(),
-    'Get Category By Id Success': props<{ category: Omit<ICategory, 'id'> }>(),
+    'Get Category By Id Success': props<{ category: Omit<ICategory, '_id'> }>(),
     'Get Category By Id Failure': props<{ error: any }>(),
-    'Update Category': props<{ id: string; category: Omit<ICategory, 'id'> }>(),
+    'Update Category': props<{
+      id: string;
+      category: Omit<ICategory, '_id'>;
+    }>(),
     'Update Category Success': props<{ category: ICategory }>(), // Action for success
     'Update Category Failure': props<{ error: any }>(), // Action for failure
     'Delete Category': props<{ id: string }>(),

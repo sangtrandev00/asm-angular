@@ -10,7 +10,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductService } from 'src/app/core/services/product.service';
-import { UserData } from '../product-list/product-list.component';
 import { IProduct } from 'src/app/models/Product';
 import { BACKEND_DOMAIN } from '../../../../../constant/base-url';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,46 +29,6 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { Store } from '@ngrx/store';
 import { ProductsApiActions } from '../../store/products.actions';
 import { selectProducts } from '../../store/products.selectors';
-
-
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
-
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
 
 @Component({
   selector: 'app-table-products',
@@ -133,6 +92,15 @@ export class TableProductsComponent {
 
     this.store.select(selectProducts).subscribe((products) => {
       console.log('data: ', products);
+
+      const transformProducts = products.map((product) => {
+        return {
+          ...product,
+          thumbnail: product.thumbnail?.startsWith('http')
+            ? product.thumbnail
+            : `${BACKEND_DOMAIN}/${product.thumbnail}`,
+        };
+      });
 
       this.dataSource = new MatTableDataSource(products);
       this.dataSource.paginator = this.paginator;
