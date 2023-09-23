@@ -1,22 +1,22 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { UserState } from './orders.reducer'; // Updated import
-import { IUser } from 'src/app/models/User'; // Assuming you have an IUser interface for users.
+import { OrderState } from './orders.reducer'; // Updated import
+import { IOrder } from 'src/app/models/Order'; // Assuming you have an IOrder interface for orders.
 
-// Create a feature selector for the UserState // Updated comment and type
-export const selectUserState = createFeatureSelector<UserState>('users'); // Updated feature selector name and type
+// Create a feature selector for the OrderState // Updated comment and type
+export const selectOrderState = createFeatureSelector<OrderState>('orders'); // Updated feature selector name and type
 
-// Create selectors for specific properties within the UserState // Updated comment
-export const selectUsers = createSelector(
-  selectUserState,
-  (state) => state.users // Updated property name
+// Create selectors for specific properties within the OrderState // Updated comment
+export const selectOrders = createSelector(
+  selectOrderState,
+  (state) => state.orders // Updated property name
 );
 
 export const selectLoading = createSelector(
-  selectUserState,
+  selectOrderState,
   (state) => state.isLoading
 );
 
-export const selectEditingUserId = createSelector(
-  selectUserState,
-  (state) => state.editingUserId // Updated property name
+export const selectEditingOrderId = createSelector(
+  selectOrderState,
+  (state) => state.editingOrderId // Updated property name
 );

@@ -26,6 +26,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ToastrModule } from 'ngx-toastr';
+import { OrdersModule } from './modules/admin/orders/orders.module';
+import { ordersReducer } from './modules/admin/orders/store/orders.reducer';
 @NgModule({
   declarations: [AppComponent, ButtonComponent],
   imports: [
@@ -40,6 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatSlideToggleModule,
     HeaderComponent,
     SideBarComponent,
+    OrdersModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
@@ -48,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
       products: productsReducer,
       categories: categoriesReducer,
       users: usersReducer,
+      orders: ordersReducer,
     }),
     EffectsModule.forRoot([CategoryEffects, ProductEffects, UserEffects]),
     StoreRouterConnectingModule.forRoot(),

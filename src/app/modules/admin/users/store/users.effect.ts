@@ -41,6 +41,10 @@ export class UserEffects {
         this.userService.addUser(action.user).pipe(
           // Updated service name and action name
           map((newUserResponse) => {
+            console.log('action user: ', action.user);
+
+            console.log('addd user', newUserResponse);
+
             // Add user toast here ???
             this.toastr.success('User added ', 'Add User Successfully');
 

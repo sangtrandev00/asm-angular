@@ -5,17 +5,15 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
 </mat-form-field>
 
-<button mat-raised-button color="primary" (click)="showNotification()">Show notification</button>
-
 
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table class="table-users" mat-table [dataSource]="dataSource" matSort>
 
         <!-- ID Column -->
-        <ng-container matColumnDef="#ID">
+        <!-- <ng-container matColumnDef="#ID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> #ID </th>
             <td mat-cell *matCellDef="let row"> {{row._id}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Progress Column -->
         <ng-container matColumnDef="Name">
@@ -45,7 +43,7 @@
         <!-- Address -->
         <ng-container matColumnDef="Address">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
-            <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+            <td mat-cell *matCellDef="let row" class="table-users__input-address"> {{row.address}} </td>
         </ng-container>
 
         <!-- Role -->

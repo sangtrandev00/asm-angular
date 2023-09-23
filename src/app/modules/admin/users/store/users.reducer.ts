@@ -49,12 +49,21 @@ export const usersReducer = createReducer(
   })), // Set loading to true on API request
   on(UsersApiActions.addUserSuccess, (state, { user }) => {
     // Updated action name
+
+    console.log('User added: ', user);
+
     return {
       ...state,
       users: [...state.users, user], // Updated property name
       isLoading: false,
     };
   }),
+  on(UsersApiActions.addUserFailure, (state, { error }) => ({
+    // Updated action name
+    ...state,
+    isLoading: false,
+    error: error,
+  })),
   on(UsersApiActions.updateUser, (state) => ({
     // Updated action name
     ...state,
@@ -72,6 +81,12 @@ export const usersReducer = createReducer(
       isLoading: false,
     };
   }),
+  on(UsersApiActions.updateUserFailure, (state, { error }) => ({
+    // Updated action name
+    ...state,
+    isLoading: false,
+    error: error,
+  })),
   on(UsersApiActions.deleteUser, (state) => ({
     // Updated action name
     ...state,
@@ -85,6 +100,12 @@ export const usersReducer = createReducer(
       isLoading: false,
     };
   }),
+  on(UsersApiActions.deleteUserFailure, (state, { error }) => ({
+    // Updated action name
+    ...state,
+    isLoading: false,
+    error: error,
+  })),
   on(UsersActions.startEditUser, (state, { id }) => {
     // Updated action name
     return {

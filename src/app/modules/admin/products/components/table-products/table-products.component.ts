@@ -22,13 +22,14 @@ import {
   MatDialogRef,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { NgIf } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Store } from '@ngrx/store';
 import { ProductsApiActions } from '../../store/products.actions';
-import { selectProducts } from '../../store/products.selectors';
+import { selectLoading, selectProducts } from '../../store/products.selectors';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-table-products',
@@ -50,17 +51,20 @@ import { selectProducts } from '../../store/products.selectors';
     MatButtonModule,
     NgIf,
     MatDialogModule,
+    DatePipe,
+    MatProgressSpinnerModule,
   ],
 })
 export class TableProductsComponent {
   // displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
   displayedColumns: string[] = [
-    '#ID',
+    // '#ID',
     'Name',
     'Image',
     'Category',
     'FinalPrice',
     'Stock',
+    'CreatedAt',
     'Actions',
   ];
   // dataSource: MatTableDataSource<UserData>;
@@ -78,6 +82,8 @@ export class TableProductsComponent {
   stockQty!: number;
   shortDesc!: string;
   fullDesc!: string;
+
+  isProductsLoading: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -105,6 +111,10 @@ export class TableProductsComponent {
       this.dataSource = new MatTableDataSource(products);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    });
+
+    this.store.select(selectLoading).subscribe((loading) => {
+      this.isProductsLoading = loading;
     });
   }
 

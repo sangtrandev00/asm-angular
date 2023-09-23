@@ -1,40 +1,41 @@
 import { createReducer, on } from '@ngrx/store';
-import { UsersActions, UsersApiActions } from './users.actions'; // Updated import
-import { IUser } from 'src/app/models/User'; // Assuming you have an IUser interface for users.
+import { OrdersActions, OrdersApiActions } from './orders.actions'; // Updated import
+import { IOrder } from 'src/app/models/Order'; // Assuming you have an IOrder interface for orders.
 
-export interface UserState {
+export interface OrderState {
   // Updated interface name
-  users: IUser[]; // Updated property name
+  orders: IOrder[]; // Updated property name
   isLoading: boolean;
   error: any;
-  editingUserId: string; // Updated property name
+  editingOrderId: string; // Updated property name
 }
 
-export const initialState: UserState = {
-  users: [], // Updated property name
+export const initialState: OrderState = {
+  orders: [], // Updated property name
   isLoading: false,
   error: null,
-  editingUserId: '', // Updated property name
+  editingOrderId: '', // Updated property name
 };
 
-export const usersReducer = createReducer(
+export const ordersReducer = createReducer(
   // Updated reducer name
   initialState,
-  on(UsersApiActions.getUserList, (_state) => {
+  on(OrdersApiActions.getOrderList, (_state) => {
     // Updated action name
     return {
       ...initialState,
       isLoading: true,
     };
   }),
-  on(UsersApiActions.getUserListSuccess, (_state, { users }) => {
+  on(OrdersApiActions.getOrderListSuccess, (_state, { orders }) => {
     // Updated action name
     return {
       ...initialState,
-      users, // Updated property name
+      orders, // Updated property name
+      isLoading: false,
     };
   }),
-  on(UsersApiActions.getUserListFailure, (_state, { error }) => {
+  on(OrdersApiActions.getOrderListFailure, (_state, { error }) => {
     // Updated action name
     return {
       ...initialState,
@@ -42,61 +43,61 @@ export const usersReducer = createReducer(
       error: error,
     };
   }),
-  on(UsersApiActions.addUser, (state) => ({
+  on(OrdersApiActions.addOrder, (state) => ({
     // Updated action name
     ...state,
     isLoading: true,
   })), // Set loading to true on API request
-  on(UsersApiActions.addUserSuccess, (state, { user }) => {
+  on(OrdersApiActions.addOrderSuccess, (state, { order }) => {
     // Updated action name
     return {
       ...state,
-      users: [...state.users, user], // Updated property name
+      orders: [...state.orders, order], // Updated property name
       isLoading: false,
     };
   }),
-  on(UsersApiActions.updateUser, (state) => ({
+  on(OrdersApiActions.updateOrder, (state) => ({
     // Updated action name
     ...state,
     isLoading: true,
   })), // Set loading to true on API request
-  on(UsersApiActions.updateUserSuccess, (state, { user }) => {
+  on(OrdersApiActions.updateOrderSuccess, (state, { order }) => {
     // Updated action name
     return {
       ...state,
-      users: state.users.map(
+      orders: state.orders.map(
         (
-          usr // Updated property name
-        ) => (usr._id === user._id ? user : usr) // Updated property name
+          ord // Updated property name
+        ) => (ord._id === order._id ? order : ord) // Updated property name
       ),
       isLoading: false,
     };
   }),
-  on(UsersApiActions.deleteUser, (state) => ({
+  on(OrdersApiActions.deleteOrder, (state) => ({
     // Updated action name
     ...state,
     isLoading: true,
   })),
-  on(UsersApiActions.deleteUserSuccess, (state, { id }) => {
+  on(OrdersApiActions.deleteOrderSuccess, (state, { id }) => {
     // Updated action name
     return {
       ...state,
-      users: state.users.filter((user) => user._id !== id), // Updated property name
+      orders: state.orders.filter((order) => order._id !== id), // Updated property name
       isLoading: false,
     };
   }),
-  on(UsersActions.startEditUser, (state, { id }) => {
+  on(OrdersActions.startEditOrder, (state, { id }) => {
     // Updated action name
     return {
       ...state,
-      editingUserId: id, // Updated property name
+      editingOrderId: id, // Updated property name
     };
   }),
-  on(UsersActions.resetUser, (state) => {
+  on(OrdersActions.resetOrder, (state) => {
     // Updated action name
     return {
       ...state,
-      editingUserId: '', // Updated property name
+      editingOrderId: '', // Updated property name
     };
   })
 );

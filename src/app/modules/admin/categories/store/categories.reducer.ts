@@ -48,17 +48,37 @@ export const categoriesReducer = createReducer(
       isLoading: false,
     };
   }), // Add this line,
+  on(CategoriesApiActions.addCategoryFailure, (state, { error }) => {
+    return {
+      ...state,
+      isLoading: false,
+      error: error,
+    };
+  }),
   on(CategoriesApiActions.updateCategory, (state) => ({
     ...state,
     isLoading: true,
   })), // Set loading to true on API request
   on(CategoriesApiActions.updateCategorySuccess, (state, { category }) => {
+    const categoryExistingIdx = state.categories.findIndex(
+      (cate) => cate._id === category._id
+    );
+
+    const updatedCategories = [...state.categories];
+
+    updatedCategories[categoryExistingIdx] = category;
+
     return {
       ...state,
-      posts: state.categories.map((cate) =>
-        cate._id === cate._id ? category : cate
-      ),
+      categories: updatedCategories,
       isLoading: false,
+    };
+  }),
+  on(CategoriesApiActions.updateCategoryFailure, (state, { error }) => {
+    return {
+      ...state,
+      isLoading: false,
+      error: error,
     };
   }),
   on(CategoriesApiActions.deleteCategory, (state) => ({
@@ -66,10 +86,19 @@ export const categoriesReducer = createReducer(
     isLoading: true,
   })),
   on(CategoriesApiActions.deleteCategorySuccess, (state, { id }) => {
+    console.log('category id: ', id);
+
     return {
       ...state,
       categories: state.categories.filter((category) => category._id !== id),
       isLoading: false,
+    };
+  }),
+  on(CategoriesApiActions.deleteCategoryFailure, (state, { error }) => {
+    return {
+      ...state,
+      isLoading: false,
+      error: error,
     };
   }),
   on(CategoriesActions.startEditCategory, (state, { id }) => {

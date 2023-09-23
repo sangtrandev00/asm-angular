@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
 import { UserService } from 'src/app/core/services/user.service';
 import { IUser } from 'src/app/models/User';
-import { selectUsers } from '../../store/users.selectors';
+import { selectLoading, selectUsers } from '../../store/users.selectors';
 import { UsersApiActions } from '../../store/users.actions';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { provideToastr } from 'ngx-toastr';
 import { ToastrModule } from 'ngx-toastr';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-table-users',
@@ -45,12 +46,13 @@ import { ToastrModule } from 'ngx-toastr';
     NgIf,
     MatDialogModule,
     ToastrModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class TableUsersComponent {
   // displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
   displayedColumns: string[] = [
-    '#ID',
+    // '#ID',
     'Name',
     'Avatar',
     'Email',
@@ -74,6 +76,8 @@ export class TableUsersComponent {
   role!: number;
   payment!: string;
 
+  isUsersLoading: boolean = false;
+
   constructor(
     private userService: UserService,
     public dialog: MatDialog,
@@ -92,6 +96,10 @@ export class TableUsersComponent {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    });
+
+    this.store.select(selectLoading).subscribe((isLoading) => {
+      this.isUsersLoading = isLoading;
     });
   }
 

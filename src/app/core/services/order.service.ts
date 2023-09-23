@@ -2,16 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
-import { IUser } from 'src/app/models/User'; // Assuming you have a IUser interface for users.
+// import { IUser } from 'src/app/models/User'; // Assuming you have a IUser interface for users.
 import { map } from 'rxjs/operators';
+import { IOrder } from 'src/app/models/Order';
 
-export interface getUsersResponse {
-  users: IUser[];
+export interface getOrdersResponse {
+  orders: IOrder[];
   message: string;
 }
 
-export interface getUserResponse {
-  user: IUser;
+export interface getOrderResponse {
+  order: IOrder;
   message: string;
 }
 
@@ -21,49 +22,60 @@ export interface getUserResponse {
 export class OrderService {
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<getUsersResponse> {
+  getOrders(): Observable<getOrdersResponse> {
     return this.http
-      .get<getUsersResponse>(`${BACKEND_DOMAIN}/admin/users`)
+      .get<getOrdersResponse>(`${BACKEND_DOMAIN}/admin/orders`)
       .pipe(
-        map((users) => {
-          return users || [];
+        map((orders) => {
+          return orders || [];
         })
       );
   }
 
-  addUser(userData: Omit<IUser, '_id'>): Observable<getUserResponse> {
-    return this.http.post<getUserResponse>(
-      `${BACKEND_DOMAIN}/admin/user`,
-      userData
+  addOrder(orderData: Omit<IOrder, '_id'>): Observable<getOrderResponse> {
+    return this.http.post<getOrderResponse>(
+      `${BACKEND_DOMAIN}/admin/order`,
+      orderData
     );
   }
 
-  getUserById(id: string): Observable<getUserResponse> {
+  getOrderById(id: string): Observable<getOrderResponse> {
     return this.http
-      .get<getUserResponse>(`${BACKEND_DOMAIN}/admin/users/${id}`)
+      .get<getOrderResponse>(`${BACKEND_DOMAIN}/admin/orders/${id}`)
       .pipe(
-        map((user) => {
-          return user;
+        map((order) => {
+          return order;
         })
       );
   }
 
-  updateUser(
+  updateOrder(
     id: string,
-    userData: Omit<IUser, '_id'>
-  ): Observable<getUserResponse> {
+    orderData: Omit<IOrder, '_id'>
+  ): Observable<getOrderResponse> {
     return this.http
-      .put<getUserResponse>(`${BACKEND_DOMAIN}/admin/user/${id}`, userData)
+      .put<getOrderResponse>(`${BACKEND_DOMAIN}/admin/order/${id}`, orderData)
       .pipe(
-        map((user) => {
-          // console.log("user: ", user);
-          return user;
+        map((order) => {
+          // console.log("order: ", order);
+          return order;
         })
       );
   }
 
-  deleteUser(id: string): Observable<any> {
-    return this.http.delete(`${BACKEND_DOMAIN}/admin/users/${id}`).pipe(
+  patchOrder(id: string, orderData: IOrder): Observable<getOrderResponse> {
+    return this.http
+      .patch<getOrderResponse>(`${BACKEND_DOMAIN}/admin/order/${id}`, orderData)
+      .pipe(
+        map((order) => {
+          // console.log("order: ", order);
+          return order;
+        })
+      );
+  }
+
+  deleteOrder(id: string): Observable<any> {
+    return this.http.delete(`${BACKEND_DOMAIN}/admin/orders/${id}`).pipe(
       map((empty) => {
         return empty;
       })

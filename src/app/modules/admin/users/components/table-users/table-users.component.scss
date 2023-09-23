@@ -6,4 +6,17 @@
         width: 50px;
         object-fit: cover;
     }
+
+
+    &__input {
+        &-address {
+            width: 200px;
+            height:  4rem; /* Chiều cao để hiển thị dòng text */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;  /* Số dòng hiển thị lên */
+
+        }
+    }
 }

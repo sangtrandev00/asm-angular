@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { DatePipe, JsonPipe, NgIf } from '@angular/common';
 import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,10 +14,14 @@ import { Store } from '@ngrx/store';
 import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ICategory } from 'src/app/models/Category';
-import { selectCategories } from '../../store/categories.selectors';
+import {
+  selectCategories,
+  selectLoading,
+} from '../../store/categories.selectors';
 import { CategoriesApiActions } from '../../store/categories.actions';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-table-categories',
@@ -39,16 +43,19 @@ import { CategoryDialogComponent } from '../category-dialog/category-dialog.comp
     MatButtonModule,
     NgIf,
     MatDialogModule,
+    JsonPipe,
+    DatePipe,
+    MatProgressSpinnerModule,
   ],
 })
 export class TableCategoriesComponent {
   displayedColumns: string[] = [
-    '#ID',
+    // '#ID',
     'Name',
     'CateImage',
     'Description',
     'QtyProducts',
-    // 'Stock',
+    'CreatedAt',
     'Actions',
   ];
   // dataSource: MatTableDataSource<UserData>;
@@ -64,6 +71,8 @@ export class TableCategoriesComponent {
   products!: number;
   createdAt!: string;
   updatedAt!: string;
+
+  isCategoriesLoading: boolean = false;
 
   constructor(
     private categoryService: CategoryService,
@@ -85,6 +94,12 @@ export class TableCategoriesComponent {
       this.dataSource = new MatTableDataSource(categories);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    });
+
+    this.store.select(selectLoading).subscribe((isLoading) => {
+      console.log('is loading: ', isLoading);
+
+      this.isCategoriesLoading = isLoading;
     });
   }
 

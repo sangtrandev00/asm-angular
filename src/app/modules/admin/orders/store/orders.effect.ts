@@ -3,125 +3,120 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { UsersApiActions } from './users.actions'; // Updated import
-import { UserService } from 'src/app/core/services/user.service'; // Updated import
+import { OrdersApiActions } from './orders.actions'; // Updated import
+import { OrderService } from 'src/app/core/services/order.service'; // Updated import
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class UserEffects {
-  // Updated class name
+export class OrderEffects {
   constructor(
     private actions$: Actions,
-    private userService: UserService, // Updated service name,
+    private orderService: OrderService, // Updated service name
     private toastr: ToastrService
   ) {}
 
-  getUsers$ = createEffect(() =>
+  getOrders$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UsersApiActions.getUserList), // Updated action name
+      ofType(OrdersApiActions.getOrderList), // Updated action name
       switchMap(() =>
-        this.userService.getUsers().pipe(
-          // Updated service name
+        this.orderService.getOrders().pipe(
           map(
-            (usersResponse) =>
-              UsersApiActions.getUserListSuccess({ users: usersResponse.users }) // Updated action name
+            (ordersResponse) =>
+              OrdersApiActions.getOrderListSuccess({
+                orders: ordersResponse.orders,
+              }) // Updated action name
           ),
           catchError(
-            (error) => of(UsersApiActions.getUserListFailure({ error })) // Updated action name
+            (error) => of(OrdersApiActions.getOrderListFailure({ error })) // Updated action name
           )
         )
       )
     )
   );
 
-  addUser$ = createEffect(() =>
+  addOrder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UsersApiActions.addUser), // Updated action name
+      ofType(OrdersApiActions.addOrder), // Updated action name
       switchMap((action) =>
-        this.userService.addUser(action.user).pipe(
-          // Updated service name and action name
-          map((newUserResponse) => {
-            // Add user toast here ???
-            this.toastr.success('User added ', 'Add User Successfully');
+        this.orderService.addOrder(action.order).pipe(
+          map((newOrderResponse) => {
+            // Add order toast here ???
+            this.toastr.success('Order added', 'Add Order Successfully');
 
-            return UsersApiActions.addUserSuccess({
-              // Updated action name
-              user: newUserResponse.user, // Updated property name
+            return OrdersApiActions.addOrderSuccess({
+              order: newOrderResponse.order, // Updated property name
             });
           }),
           catchError((error) => {
-            this.toastr.error('User not added ', 'Add User Failed');
+            this.toastr.error('Order not added', 'Add Order Failed');
 
-            return of(UsersApiActions.addUserFailure({ error })); // Updated action name
+            return of(OrdersApiActions.addOrderFailure({ error })); // Updated action name
           })
         )
       )
     )
   );
 
-  getUserById$ = createEffect(() =>
+  getOrderById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UsersApiActions.getUserById), // Updated action name
+      ofType(OrdersApiActions.getOrderById), // Updated action name
       switchMap((action) =>
-        this.userService.getUserById(action.userId).pipe(
-          // Updated service name and action name
-          map((userResponse) => {
-            return UsersApiActions.getUserByIdSuccess({
-              user: userResponse.user,
+        this.orderService.getOrderById(action.orderId).pipe(
+          map((orderResponse) => {
+            return OrdersApiActions.getOrderByIdSuccess({
+              order: orderResponse.order,
             }); // Updated action name
           }),
           catchError(
-            (error) => of(UsersApiActions.getUserByIdFailure({ error })) // Updated action name
+            (error) => of(OrdersApiActions.getOrderByIdFailure({ error })) // Updated action name
           )
         )
       )
     )
   );
 
-  updateUser$ = createEffect(() =>
+  updateOrder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UsersApiActions.updateUser), // Updated action name
+      ofType(OrdersApiActions.updateOrder), // Updated action name
       switchMap((action) =>
-        this.userService.updateUser(action.id, action.user).pipe(
-          // Updated service name and action name
-          map((userResponse) => {
-            this.toastr.success('User updated ', 'Update User Successfully');
+        this.orderService.updateOrder(action.id, action.order).pipe(
+          map((orderResponse) => {
+            this.toastr.success('Order updated', 'Update Order Successfully');
 
-            return UsersApiActions.updateUserSuccess({
-              user: userResponse.user,
+            return OrdersApiActions.updateOrderSuccess({
+              order: orderResponse.order,
             }); // Updated action name
           }),
           catchError((error) => {
-            this.toastr.error('User not updated ', 'Update User Failed');
+            this.toastr.error('Order not updated', 'Update Order Failed');
 
-            return of(UsersApiActions.updateUserFailure({ error })); // Updated action name
+            return of(OrdersApiActions.updateOrderFailure({ error })); // Updated action name
           })
         )
       )
     )
   );
 
-  deleteUser$ = createEffect(() =>
+  deleteOrder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UsersApiActions.deleteUser), // Updated action name
+      ofType(OrdersApiActions.deleteOrder), // Updated action name
       switchMap((action) =>
-        this.userService.deleteUser(action.id).pipe(
-          // Updated service name and action name
+        this.orderService.deleteOrder(action.id).pipe(
           map(() => {
             this.toastr.success(
-              'User deleted ',
-              `Delete User #${action.id} Successfully`
+              'Order deleted',
+              `Delete Order #${action.id} Successfully`
             );
 
-            return UsersApiActions.deleteUserSuccess({ id: action.id }); // Updated action name
+            return OrdersApiActions.deleteOrderSuccess({ id: action.id }); // Updated action name
           }),
           catchError((error) => {
             this.toastr.error(
-              'User not deleted ',
-              `Delete User #${action.id} Successfully`
+              'Order not deleted',
+              `Delete Order #${action.id} Failed`
             );
 
-            return of(UsersApiActions.deleteUserFailure({ error })); // Updated action name
+            return of(OrdersApiActions.deleteOrderFailure({ error })); // Updated action name
           })
         )
       )

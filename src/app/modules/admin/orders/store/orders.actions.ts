@@ -1,39 +1,39 @@
 import { createAction, createActionGroup, props } from '@ngrx/store';
-import { IUser } from '../../../../models/User'; // Assuming you have an IUser interface for users.
+import { IOrder } from '../../../../models/Order'; // Assuming you have an IOrder interface for orders.
 
-// Define action group for regular user actions (not API-related)
-export const UsersActions = createActionGroup({
-  source: 'Users', // Updated source name
+// Define action group for regular order actions (not API-related)
+export const OrdersActions = createActionGroup({
+  source: 'Orders', // Updated source name
   events: {
-    'Add User': props<{ user: IUser }>(), // Updated action name and property
-    'Remove User': props<{ id: string }>(), // Updated action name and property
-    'Start Edit User': props<{ id: string }>(), // Updated action name and property
-    'Reset User': () => ({ payload: {} }), // Updated action name and property
+    'Add Order': props<{ order: IOrder }>(), // Updated action name and property
+    'Remove Order': props<{ id: string }>(), // Updated action name and property
+    'Start Edit Order': props<{ id: string }>(), // Updated action name and property
+    'Reset Order': () => ({ payload: {} }), // Updated action name and property
   },
 });
 
-// Define action group for API-related user actions
-export const UsersApiActions = createActionGroup({
-  source: 'Users API', // Updated source name
+// Define action group for API-related order actions
+export const OrdersApiActions = createActionGroup({
+  source: 'Orders API', // Updated source name
   events: {
-    'Get User List': props<{
-      users: IUser[]; // Updated property name
+    'Get Order List': props<{
+      orders: IOrder[]; // Updated property name
     }>(),
-    'Get User List Success': props<{
-      users: IUser[]; // Updated property name
+    'Get Order List Success': props<{
+      orders: IOrder[]; // Updated property name
     }>(),
-    'Get User List Failure': props<{ error: any }>(), // Updated action name
-    'Add User': props<{ user: Omit<IUser, '_id'> }>(), // Updated action name and property
-    'Add User Success': props<{ user: IUser }>(), // Updated action name and property
-    'Add User Failure': props<{ error: any }>(), // Updated action name and property
-    'Get User By Id': props<{ userId: string }>(), // Updated action name and property
-    'Get User By Id Success': props<{ user: Omit<IUser, '_id'> }>(), // Updated action name and property
-    'Get User By Id Failure': props<{ error: any }>(), // Updated action name and property
-    'Update User': props<{ id: string; user: Omit<IUser, '_id'> }>(), // Updated action name and property
-    'Update User Success': props<{ user: IUser }>(), // Updated action name and property
-    'Update User Failure': props<{ error: any }>(), // Updated action name and property
-    'Delete User': props<{ id: string }>(), // Updated action name and property
-    'Delete User Success': props<{ id: string }>(), // Updated action name and property
-    'Delete User Failure': props<{ error: any }>(), // Updated action name and property
+    'Get Order List Failure': props<{ error: any }>(), // Updated action name
+    'Add Order': props<{ order: Omit<IOrder, '_id'> }>(), // Updated action name and property
+    'Add Order Success': props<{ order: IOrder }>(), // Updated action name and property
+    'Add Order Failure': props<{ error: any }>(), // Updated action name and property
+    'Get Order By Id': props<{ orderId: string }>(), // Updated action name and property
+    'Get Order By Id Success': props<{ order: Omit<IOrder, '_id'> }>(), // Updated action name and property
+    'Get Order By Id Failure': props<{ error: any }>(), // Updated action name and property
+    'Update Order': props<{ id: string; order: Omit<IOrder, '_id'> }>(), // Updated action name and property
+    'Update Order Success': props<{ order: IOrder }>(), // Updated action name and property
+    'Update Order Failure': props<{ error: any }>(), // Updated action name and property
+    'Delete Order': props<{ id: string }>(), // Updated action name and property
+    'Delete Order Success': props<{ id: string }>(), // Updated action name and property
+    'Delete Order Failure': props<{ error: any }>(), // Updated action name and property
   },
 });
