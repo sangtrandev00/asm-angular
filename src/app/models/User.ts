@@ -10,5 +10,5 @@ export interface IUser {
   payment?: string;
   createdAt?: string;
   updatedAt?: string;
-  providerId: string;
+  providerId?: string;
 }

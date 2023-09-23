@@ -5,35 +5,55 @@ import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
 import { IUser } from 'src/app/models/User'; // Assuming you have a IUser interface for users.
 import { map } from 'rxjs/operators';
 
+export interface getUsersResponse {
+  users: IUser[];
+  message: string;
+}
+
+export interface getUserResponse {
+  user: IUser;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(`${BACKEND_DOMAIN}/admin/users`).pipe(
-      map((users) => {
-        return users || [];
-      })
-    );
-  }
-
-  addUser(userData: Omit<IUser, '_id'>): Observable<IUser> {
-    return this.http.post<IUser>(`${BACKEND_DOMAIN}/admin/users`, userData);
-  }
-
-  getUserById(id: string): Observable<IUser> {
-    return this.http.get<IUser>(`${BACKEND_DOMAIN}/admin/users/${id}`).pipe(
-      map((user) => {
-        return user;
-      })
-    );
-  }
-
-  updateUser(id: string, userData: Omit<IUser, '_id'>): Observable<IUser> {
+  getUsers(): Observable<getUsersResponse> {
     return this.http
-      .put<IUser>(`${BACKEND_DOMAIN}/admin/users/${id}`, userData)
+      .get<getUsersResponse>(`${BACKEND_DOMAIN}/admin/users`)
+      .pipe(
+        map((users) => {
+          return users || [];
+        })
+      );
+  }
+
+  addUser(userData: Omit<IUser, '_id'>): Observable<getUserResponse> {
+    return this.http.post<getUserResponse>(
+      `${BACKEND_DOMAIN}/admin/user`,
+      userData
+    );
+  }
+
+  getUserById(id: string): Observable<getUserResponse> {
+    return this.http
+      .get<getUserResponse>(`${BACKEND_DOMAIN}/admin/users/${id}`)
+      .pipe(
+        map((user) => {
+          return user;
+        })
+      );
+  }
+
+  updateUser(
+    id: string,
+    userData: Omit<IUser, '_id'>
+  ): Observable<getUserResponse> {
+    return this.http
+      .put<getUserResponse>(`${BACKEND_DOMAIN}/admin/user/${id}`, userData)
       .pipe(
         map((user) => {
           // console.log("user: ", user);

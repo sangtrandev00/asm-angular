@@ -25,6 +25,7 @@ import { ButtonComponent } from './shared/components/button/button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [AppComponent, ButtonComponent],
   imports: [
@@ -32,6 +33,9 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+    }), // ToastrModule added
     BrowserAnimationsModule,
     MatSlideToggleModule,
     HeaderComponent,
