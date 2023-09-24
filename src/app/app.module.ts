@@ -1,7 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +27,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { ToastrModule } from 'ngx-toastr';
 import { OrdersModule } from './modules/admin/orders/orders.module';
 import { ordersReducer } from './modules/admin/orders/store/orders.reducer';
+import { OrderEffects } from './modules/admin/orders/store/orders.effect';
+import { authReducer } from './auth/store/auth.reducer';
+import { AuthEffects } from './auth/store/auth.effect';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 @NgModule({
   declarations: [AppComponent, ButtonComponent],
   imports: [
@@ -52,8 +59,29 @@ import { ordersReducer } from './modules/admin/orders/store/orders.reducer';
       categories: categoriesReducer,
       users: usersReducer,
       orders: ordersReducer,
+      auth: authReducer,
     }),
-    EffectsModule.forRoot([CategoryEffects, ProductEffects, UserEffects]),
+    EffectsModule.forRoot([
+      CategoryEffects,
+      ProductEffects,
+      UserEffects,
+      OrderEffects,
+      AuthEffects,
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['http://localhost:8080'],
+        disallowedRoutes: ['http://example.com/examplebadroute/'],
+        authScheme: (request) => {
+          // if (request.url.includes("foo")) {
+          //   return "Basic ";
+          // }
+
+          return 'Bearer ';
+        },
+      },
+    }),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],

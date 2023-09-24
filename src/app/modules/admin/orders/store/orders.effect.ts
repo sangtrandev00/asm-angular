@@ -20,15 +20,16 @@ export class OrderEffects {
       ofType(OrdersApiActions.getOrderList), // Updated action name
       switchMap(() =>
         this.orderService.getOrders().pipe(
-          map(
-            (ordersResponse) =>
-              OrdersApiActions.getOrderListSuccess({
-                orders: ordersResponse.orders,
-              }) // Updated action name
-          ),
-          catchError(
-            (error) => of(OrdersApiActions.getOrderListFailure({ error })) // Updated action name
-          )
+          map((ordersResponse) => {
+            console.log('orders response: ' + ordersResponse);
+
+            return OrdersApiActions.getOrderListSuccess({
+              orders: ordersResponse.orders,
+            }); // Updated action name
+          }),
+          catchError((error) => {
+            return of(OrdersApiActions.getOrderListFailure({ error })); // Updated action name
+          })
         )
       )
     )

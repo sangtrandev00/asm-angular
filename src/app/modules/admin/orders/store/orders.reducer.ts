@@ -20,25 +20,25 @@ export const initialState: OrderState = {
 export const ordersReducer = createReducer(
   // Updated reducer name
   initialState,
-  on(OrdersApiActions.getOrderList, (_state) => {
+  on(OrdersApiActions.getOrderList, (state) => {
     // Updated action name
     return {
-      ...initialState,
+      ...state,
       isLoading: true,
     };
   }),
-  on(OrdersApiActions.getOrderListSuccess, (_state, { orders }) => {
+  on(OrdersApiActions.getOrderListSuccess, (state, { orders }) => {
     // Updated action name
     return {
-      ...initialState,
+      ...state,
       orders, // Updated property name
       isLoading: false,
     };
   }),
-  on(OrdersApiActions.getOrderListFailure, (_state, { error }) => {
+  on(OrdersApiActions.getOrderListFailure, (state, { error }) => {
     // Updated action name
     return {
-      ...initialState,
+      ...state,
       isLoading: false, // Updated property name
       error: error,
     };

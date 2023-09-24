@@ -83,7 +83,7 @@ export class TableOrdersComponent {
     // this.dataSource = new MatTableDataSource(users);
 
     this.store.select(selectOrders).subscribe((orders) => {
-      console.log('data: ', orders);
+      console.log('data orders: ', orders); // Khó hiểu bug này quá ???
 
       // const transformorders = orders.map((product) => {
       //   return {
@@ -100,6 +100,8 @@ export class TableOrdersComponent {
     });
 
     this.store.select(selectLoading).subscribe((isLoading) => {
+      console.log('Is loading orders: ', isLoading);
+
       this.isOrdersLoading = isLoading;
     });
   }

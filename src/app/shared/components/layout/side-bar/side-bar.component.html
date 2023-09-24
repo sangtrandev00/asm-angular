@@ -1,21 +1,26 @@
 <mat-nav-list class="sidebar">
-    <a mat-list-item (click)="navigateTo('/admin/dashboard')" routerLink="/admin/dashboard" routerLinkActive="active">
+    <a mat-list-item (click)="navigateTo('/admin/dashboard')" routerLink="/admin/dashboard"
+        routerLinkActive="activeRoute" ariaCurrentWhenActive="page">
         <span matListItemTitle>Dashboard</span>
         <span>Report center</span>
     </a>
-    <a mat-list-item (click)="navigateTo('/admin/categories')" routerLink="/admin/categories">
+    <a mat-list-item (click)="navigateTo('/admin/categories')" routerLink="/admin/categories"
+        routerLinkActive="activeRoute" ariaCurrentWhenActive="page">
         <span matListItemTitle>Categories</span>
         <span>Categories List</span>
     </a>
-    <a mat-list-item (click)="navigateTo('/admin/products')" routerLink="/admin/products">
+    <a mat-list-item (click)="navigateTo('/admin/products')" routerLink="/admin/products" routerLinkActive="activeRoute"
+        ariaCurrentWhenActive="page">
         <span matListItemTitle>Products</span>
         <span>Products List</span>
     </a>
-    <a mat-list-item (click)="navigateTo('/admin/orders')" routerLink="/admin/orders">
+    <a mat-list-item (click)="navigateTo('/admin/orders')" routerLink="/admin/orders" routerLinkActive="activeRoute"
+        ariaCurrentWhenActive="page">
         <span matListItemTitle>Orders</span>
         <span>Orders List</span>
     </a>
-    <a mat-list-item (click)="navigateTo('/admin/users')" routerLink="/admin/users">
+    <a mat-list-item (click)="navigateTo('/admin/users')" routerLink="/admin/users" routerLinkActive="activeRoute"
+        ariaCurrentWhenActive="page">
         <span matListItemTitle>Users</span>
         <span>Users List</span>
     </a>

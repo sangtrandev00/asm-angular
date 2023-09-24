@@ -3,6 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'shop',
+    loadChildren: () =>
+      import('./modules/site/shop/shop.module').then((m) => m.ShopModule),
+  },
+  {
     path: 'admin/categories',
     loadChildren: () =>
       import('./modules/admin/categories/categories.module').then(
@@ -34,6 +43,11 @@ const routes: Routes = [
       import('./modules/admin/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+  },
+  {
+    path: 'modules/site/shop',
+    loadChildren: () =>
+      import('./modules/site/shop/shop.module').then((m) => m.ShopModule),
   },
 ];
 

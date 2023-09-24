@@ -6,10 +6,11 @@ import { IOrder } from 'src/app/models/Order'; // Assuming you have an IOrder in
 export const selectOrderState = createFeatureSelector<OrderState>('orders'); // Updated feature selector name and type
 
 // Create selectors for specific properties within the OrderState // Updated comment
-export const selectOrders = createSelector(
-  selectOrderState,
-  (state) => state.orders // Updated property name
-);
+export const selectOrders = createSelector(selectOrderState, (state) => {
+  console.log('state: ', state);
+
+  return state.orders; // Updated property name
+});
 
 export const selectLoading = createSelector(
   selectOrderState,
