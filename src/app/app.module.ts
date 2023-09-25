@@ -31,6 +31,8 @@ import { OrderEffects } from './modules/admin/orders/store/orders.effect';
 import { authReducer } from './auth/store/auth.reducer';
 import { AuthEffects } from './auth/store/auth.effect';
 import { JwtModule } from '@auth0/angular-jwt';
+import { dashboardReducer } from './modules/admin/dashboard/store/dashboard.reducer';
+import { DashboardEffects } from './modules/admin/dashboard/store/dasbboard.effect';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -60,6 +62,7 @@ export function tokenGetter() {
       users: usersReducer,
       orders: ordersReducer,
       auth: authReducer,
+      dashboard: dashboardReducer,
     }),
     EffectsModule.forRoot([
       CategoryEffects,
@@ -67,6 +70,7 @@ export function tokenGetter() {
       UserEffects,
       OrderEffects,
       AuthEffects,
+      DashboardEffects,
     ]),
     JwtModule.forRoot({
       config: {

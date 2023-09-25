@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -8,4 +8,15 @@ import { MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [MatCardModule],
 })
-export class SummaryItemComponent {}
+export class SummaryItemComponent {
+  @Input() report: number = 0;
+  @Input() name: string = '';
+  @Input() image: string = '';
+
+  constructor() {}
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+  }
+}
