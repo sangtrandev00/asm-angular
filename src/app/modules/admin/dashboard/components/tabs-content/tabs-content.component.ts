@@ -1,7 +1,13 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  MatProgressSpinnerModule,
+  MatSpinner,
+} from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Store } from '@ngrx/store';
 import { Observable, Observer } from 'rxjs';
+import { TableOrdersComponent } from './components/table-orders/table-orders.component';
 export interface ExampleTab {
   label: string;
   content: string;
@@ -12,20 +18,20 @@ export interface ExampleTab {
   templateUrl: './tabs-content.component.html',
   styleUrls: ['./tabs-content.component.scss'],
   standalone: true,
-  imports: [NgIf, MatTabsModule, NgFor, AsyncPipe],
+  imports: [
+    NgIf,
+    MatTabsModule,
+    NgFor,
+    AsyncPipe,
+    MatProgressSpinnerModule,
+    TableOrdersComponent,
+  ],
 })
 export class TabsContentComponent {
-  asyncTabs: Observable<ExampleTab[]>;
+  constructor(private store: Store) {}
 
-  constructor() {
-    this.asyncTabs = new Observable((observer: Observer<ExampleTab[]>) => {
-      setTimeout(() => {
-        observer.next([
-          { label: 'First', content: 'Content 1' },
-          { label: 'Second', content: 'Content 2' },
-          { label: 'Third', content: 'Content 3' },
-        ]);
-      }, 1000);
-    });
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
   }
 }

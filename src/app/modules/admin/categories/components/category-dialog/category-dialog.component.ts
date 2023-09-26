@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -17,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-dialog',
@@ -37,14 +39,16 @@ export class CategoryDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ICategory,
-    private store: Store
+    private store: Store,
+    private toastr: ToastrService
   ) {}
 
   categoryForm = new FormGroup({
-    name: new FormControl(this.data.name),
-    cateImage: new FormControl(this.data.cateImage),
-    description: new FormControl(this.data.description),
-    products: new FormControl(this.data.products),
+    name: new FormControl(this.data.name, [Validators.required]),
+    cateImage: new FormControl(this.data.cateImage, [Validators.required]),
+    // cateImageFile: new FormControl(''),
+    description: new FormControl(this.data.description, [Validators.required]),
+    products: new FormControl(this.data.products, [Validators.required]),
     _id: new FormControl(this.data._id),
   });
 
@@ -56,6 +60,12 @@ export class CategoryDialogComponent {
     console.log('save submitted!', this.categoryForm.value);
 
     console.log(this.data);
+
+    if (!this.categoryForm.valid) {
+      console.log('Form invalid!');
+      this.toastr.error('Form invalid!', 'Some field went wrong!');
+      return;
+    }
 
     // Async dispatch here ???
     const formData: Omit<ICategory, '_id'> = {

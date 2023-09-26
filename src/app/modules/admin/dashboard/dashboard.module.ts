@@ -5,9 +5,17 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SummaryItemComponent } from './components/summary-item/summary-item.component';
 import { TabsContentComponent } from './components/tabs-content/tabs-content.component';
+import { TableOrdersComponent } from './components/tabs-content/components/table-orders/table-orders.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [CommonModule, DashboardRoutingModule, SummaryItemComponent, TabsContentComponent],
+  declarations: [],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    DashboardComponent,
+    SummaryItemComponent,
+    TabsContentComponent,
+    TableOrdersComponent,
+  ],
 })
 export class DashboardModule {}

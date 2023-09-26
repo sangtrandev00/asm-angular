@@ -1,9 +1,11 @@
 <mat-toolbar color="primary">
-    <button (click)="toggleSideBar()" mat-icon-button class="example-icon"
-        aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
+    <div *ngIf="isAuth">
+        <button (click)="toggleSideBar()" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <span> My Admin App </span>
 
     <div>
 
@@ -16,37 +18,38 @@
                 </button> -->
                 <div class="collapse navbar-collapse text-light" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link text-light active" aria-current="page"
                                 (click)="navigateTo('shop')">Shop</a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <li *ngIf="!isAuth" class="nav-item">
                             <a class="nav-link text-light" (click)="navigateTo('/auth/login')">Login</a>
                         </li>
-                        <li class="nav-item">
+                        <li *ngIf="!isAuth" class="nav-item">
                             <a class="nav-link text-light" (click)="navigateTo('/auth/register')">Sign Up</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li *ngIf="isAuth" class="nav-item dropdown">
                             <a class="nav-link text-light dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Account
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" (click)="navigateTo('/auth/account')">User Information</a>
+                                <li><a class="dropdown-item nav-link" (click)="navigateTo('/auth/account')">User
+                                        Information</a>
                                 </li>
-                                <li><a class="dropdown-item">User</a></li>
+                                <li><a class="dropdown-item nav-link">User</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                                <li><a class="dropdown-item nav-link" (click)="logout()">Logout</a></li>
                             </ul>
                         </li>
 
                     </ul>
-                    <form class="d-flex" role="search">
+                    <!-- <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </nav>

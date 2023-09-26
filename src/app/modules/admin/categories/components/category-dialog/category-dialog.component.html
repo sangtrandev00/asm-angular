@@ -6,20 +6,45 @@
             <mat-label>Category Name:</mat-label>
             <input className="category-form__input" matInput formControlName="name">
 
+
         </mat-form-field>
+        <div *ngIf="!categoryForm.get('name')?.valid && (categoryForm.get('name')?.dirty || categoryForm.get('name')?.touched)"
+            class="alert alert-danger">
+
+            <div class="ng-invalid" *ngIf="categoryForm.get('name')?.errors?.['required']">
+                Name is required.
+            </div>
+
+        </div>
         <p>Category Image:</p>
         <mat-form-field class="category-form">
             <mat-label>Category Image:</mat-label>
             <input className="category-form__input" matInput formControlName="cateImage">
 
         </mat-form-field>
+
+        <div *ngIf="!categoryForm.get('cateImage')?.valid && (categoryForm.get('cateImage')?.dirty || categoryForm.get('cateImage')?.touched)"
+            class="alert alert-danger">
+
+            <div class="ng-invalid" *ngIf="categoryForm.get('cateImage')?.errors?.['required']">
+                Cate Image is required.
+            </div>
+
+        </div>
         <p>Category Description:</p>
         <mat-form-field class="category-form">
             <mat-label>Category Description:</mat-label>
             <input className="category-form__input" matInput formControlName="description">
 
         </mat-form-field>
+        <div *ngIf="!categoryForm.get('description')?.valid && (categoryForm.get('description')?.dirty || categoryForm.get('description')?.touched)"
+            class="alert alert-danger">
 
+            <div class="ng-invalid" *ngIf="categoryForm.get('description')?.errors?.['required']">
+                Description is required.
+            </div>
+
+        </div>
         <div>
             <button mat-raised-button color="primary" type="submit">Save</button>
         </div>

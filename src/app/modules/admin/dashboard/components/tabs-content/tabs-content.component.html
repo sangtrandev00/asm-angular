@@ -1,10 +1,8 @@
-<ng-container *ngIf="(asyncTabs | async) === null">
-    Loading tabs...
-</ng-container>
-
+<h3 class="my-4">Order by status</h3>
 <mat-tab-group>
-    <mat-tab *ngFor="let tab of asyncTabs | async">
-        <ng-template mat-tab-label>{{tab.label}}</ng-template>
-        {{tab.content}}
-    </mat-tab>
+    <mat-tab label="Waiting To Confirm"> <app-table-orders status="Waiting to Confirm"></app-table-orders></mat-tab>
+    <mat-tab label="Confirmed"> <app-table-orders status="confirmed"></app-table-orders></mat-tab>
+    <mat-tab label="Shipping"> <app-table-orders status="shipping"></app-table-orders></mat-tab>
+    <mat-tab label="Success"> <app-table-orders status="success"></app-table-orders></mat-tab>
+    <mat-tab label="Destroy/failed"> <app-table-orders status="failed"></app-table-orders> </mat-tab>
 </mat-tab-group>
