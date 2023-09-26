@@ -1,6 +1,16 @@
 <h1 mat-dialog-title> This is product form {{data.name}}</h1>
 <div mat-dialog-content>
     <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
+        <p>Product Categories</p>
+        <mat-form-field class="product-form">
+            <mat-label>Product Categories</mat-label>
+            <mat-select formControlName="categoryId" className="product-form__input">
+                <mat-option *ngFor="let cate of categories" [value]="cate._id">
+                    {{cate.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <p>Product Name:</p>
         <mat-form-field class="product-form">
             <mat-label>Product Name:</mat-label>

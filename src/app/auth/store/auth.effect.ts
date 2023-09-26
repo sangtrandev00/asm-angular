@@ -31,7 +31,10 @@ export class AuthEffects {
             });
           }),
           catchError((error) => {
-            this.toastr.error('Order not added', 'Add Order Failed');
+            this.toastr.error(
+              'Login failed',
+              'Something went wrong! Can not login to server'
+            );
 
             return of(AuthApiActions.loginFailure({ error })); // Updated action name
           })
@@ -46,14 +49,14 @@ export class AuthEffects {
       switchMap((action) =>
         this.authService.signUp(action.signupData).pipe(
           map((orderResponse) => {
-            this.toastr.success('Order updated', 'Update Order Successfully');
+            this.toastr.success('Register', 'Register successfully!');
 
             return AuthApiActions.registerSuccess({
               signupData: orderResponse,
             }); // Updated action name
           }),
           catchError((error) => {
-            this.toastr.error('Order not updated', 'Update Order Failed');
+            this.toastr.error('Register', 'Register failed');
 
             return of(AuthApiActions.loginFailure({ error })); // Updated action name
           })

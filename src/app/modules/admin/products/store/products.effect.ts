@@ -42,9 +42,11 @@ export class ProductEffects {
           map((newProductResponse) => {
             this.toastr.success('Add Product', 'Add Product Successfully');
 
+            console.log('newProductResponse: ', newProductResponse);
+
             return ProductsApiActions.addProductSuccess({
               // Updated action name
-              product: newProductResponse.product, // Updated property name
+              product: action.product, // Updated property name
             });
           }),
           catchError((error) => {

@@ -80,52 +80,33 @@ export class TableCategoriesComponent {
     public confirmDialog: MatDialog,
     private store: Store
   ) {
-    // Create 100 users
-    // const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-    // // Assign the data to the data source for the table to render
-    // this.dataSource = new MatTableDataSource(users);
-
-    console.log('constructor');
-    console.log(this.store);
-
     this.store.select(selectCategories).subscribe((categories) => {
-      console.log('data: ', categories);
+      const transformCategories = categories.map((category) => {
+        return {
+          ...category,
+          cateImage: category.cateImage.startsWith('http')
+            ? category.cateImage
+            : `${BACKEND_DOMAIN}/${category.cateImage}`,
+        };
+      });
 
-      this.dataSource = new MatTableDataSource(categories);
+      this.dataSource = new MatTableDataSource(transformCategories);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
 
     this.store.select(selectLoading).subscribe((isLoading) => {
-      console.log('is loading: ', isLoading);
-
       this.isCategoriesLoading = isLoading;
     });
   }
 
   ngOnInit() {
     this.categoryService.getCategories().subscribe((data) => {
-      console.log(data.categories);
-
-      this.dataSource = new MatTableDataSource(data.categories);
-      // console.log('data source: ', this.dataSource);
-      // console.log('paginator: ', this.dataSource.paginator);
-      // console.log('this paginator: ', this.paginator);
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
       this.store.dispatch(
-        CategoriesApiActions.getCategoryList({ categories: data.categories })
+        CategoriesApiActions.getCategoryList({
+          categories: data.categories,
+        })
       );
-
-      this.store.select(selectCategories).subscribe((categories) => {
-        console.log('data: ', categories);
-
-        this.dataSource = new MatTableDataSource(categories);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
     });
   }
 

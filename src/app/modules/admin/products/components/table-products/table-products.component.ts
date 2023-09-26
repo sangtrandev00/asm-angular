@@ -30,7 +30,11 @@ import { Store } from '@ngrx/store';
 import { ProductsApiActions } from '../../store/products.actions';
 import { selectLoading, selectProducts } from '../../store/products.selectors';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatSelectModule } from '@angular/material/select';
+interface Food {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-table-products',
   templateUrl: './table-products.component.html',
@@ -53,10 +57,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     DatePipe,
     MatProgressSpinnerModule,
+    MatSelectModule,
   ],
 })
 export class TableProductsComponent {
-  // displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
   displayedColumns: string[] = [
     // '#ID',
     'Name',
@@ -82,6 +86,7 @@ export class TableProductsComponent {
   stockQty!: number;
   shortDesc!: string;
   fullDesc!: string;
+  categoryId!: string;
 
   isProductsLoading: boolean = false;
 
@@ -97,8 +102,6 @@ export class TableProductsComponent {
     // this.dataSource = new MatTableDataSource(users);
 
     this.store.select(selectProducts).subscribe((products) => {
-      console.log('data: ', products);
-
       const transformProducts = products.map((product) => {
         return {
           ...product,
@@ -108,7 +111,7 @@ export class TableProductsComponent {
         };
       });
 
-      this.dataSource = new MatTableDataSource(products);
+      this.dataSource = new MatTableDataSource(transformProducts as IProduct[]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -120,16 +123,6 @@ export class TableProductsComponent {
 
   ngOnInit() {
     this.productService.getProducts().subscribe((data) => {
-      console.log(data.products);
-
-      this.dataSource = new MatTableDataSource(data.products);
-      console.log('data source: ', this.dataSource);
-      console.log('paginator: ', this.dataSource.paginator);
-      console.log('this paginator: ', this.paginator);
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
       this.store.dispatch(
         ProductsApiActions.getProductList({ products: data.products })
       );
@@ -170,6 +163,7 @@ export class TableProductsComponent {
         stockQty: this.stockQty || 1,
         shortDesc: this.shortDesc || '',
         fullDesc: this.fullDesc || '',
+        categoryId: this.categoryId || '',
       },
       width: '600px',
     });
@@ -182,6 +176,10 @@ export class TableProductsComponent {
 
   openEditModal(currentProduct: IProduct) {
     console.log('current product: ', currentProduct);
+    // console.log(
+    //   'currentProduct.categoryId?._id: ',
+    //   currentProduct.categoryId._id
+    // );
 
     const dialogRef = this.dialog.open(ProductDialogComponent, {
       data: {
@@ -194,6 +192,7 @@ export class TableProductsComponent {
         shortDesc: currentProduct.shortDesc || '',
         fullDesc: currentProduct.fullDesc || '',
         _id: currentProduct._id || '',
+        categoryId: (currentProduct.categoryId as { _id: string })?._id || '',
       },
       width: '600px',
     });
@@ -213,19 +212,3 @@ export class TableProductsComponent {
     });
   }
 }
-
-/** Builds and returns a new User. */
-// function createNewUser(id: number): UserData {
-//   const name =
-//     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-//     ' ' +
-//     NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-//     '.';
-
-//   return {
-//     id: id.toString(),
-//     name: name,
-//     progress: Math.round(Math.random() * 100).toString(),
-//     fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
-//   };
-// }

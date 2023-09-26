@@ -48,7 +48,7 @@ export class CategoryDialogComponent {
     cateImage: new FormControl(this.data.cateImage, [Validators.required]),
     // cateImageFile: new FormControl(''),
     description: new FormControl(this.data.description, [Validators.required]),
-    products: new FormControl(this.data.products, [Validators.required]),
+    products: new FormControl(this.data.products),
     _id: new FormControl(this.data._id),
   });
 

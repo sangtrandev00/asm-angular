@@ -8,10 +8,12 @@ export interface IProduct {
   shortDesc: string;
   fullDesc: string;
   stockQty: number;
-  categoryId?: {
-    _id: string;
-    name: string;
-  };
+  categoryId?:
+    | {
+        _id: string;
+        name: string;
+      }
+    | string;
   views?: number;
   createdAt?: string;
   updatedAt?: string;
