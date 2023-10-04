@@ -18,6 +18,8 @@ import { UsersApiActions } from '../../store/users.actions';
 import { IUser } from 'src/app/models/User';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { selectEditingUserId, selectUsers } from '../../store/users.selectors';
 
 @Component({
   selector: 'app-user-dialog',
@@ -33,15 +35,25 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatSelectModule,
+    FormsModule,
   ],
 })
 export class UserDialogComponent {
   hide = true;
+  userRole = new FormControl('client');
   constructor(
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IUser,
     private store: Store
-  ) {}
+  ) {
+    this.store.select(selectUsers).subscribe((users) => {
+      this.store.select(selectEditingUserId).subscribe((userId) => {
+        const currentUser = users.find((user) => user._id === userId);
+        this.userRole.patchValue(currentUser?.role || 'client');
+      });
+    });
+  }
 
   userForm = new FormGroup({
     name: new FormControl(this.data.name),

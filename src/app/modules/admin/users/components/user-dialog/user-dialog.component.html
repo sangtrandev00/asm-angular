@@ -47,6 +47,22 @@
 
         </mat-form-field>
 
+        <p>User Role:</p>
+        <mat-form-field class="user-form">
+            <mat-label>User Role:</mat-label>
+            <mat-select [formControl]="userRole" className="product-form__input">
+                <mat-option value="admin">
+                    Admin
+                </mat-option>
+                <mat-option value="subadmin">
+                    SubAdmin
+                </mat-option>
+                <mat-option value="client">
+                    Client
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <p>Password:</p>
 
         <mat-form-field class="user-form">

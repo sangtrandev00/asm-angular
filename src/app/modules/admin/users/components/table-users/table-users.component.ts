@@ -8,7 +8,7 @@ import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
 import { UserService } from 'src/app/core/services/user.service';
 import { IUser } from 'src/app/models/User';
 import { selectLoading, selectUsers } from '../../store/users.selectors';
-import { UsersApiActions } from '../../store/users.actions';
+import { UsersActions, UsersApiActions } from '../../store/users.actions';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -77,7 +77,6 @@ export class TableUsersComponent {
   payment!: string;
 
   isUsersLoading: boolean = false;
-
   constructor(
     private userService: UserService,
     public dialog: MatDialog,
@@ -146,11 +145,11 @@ export class TableUsersComponent {
       data: {
         _id: '',
         name: this.name || '',
-        avatar: this.avatar || 0,
-        email: this.email || 0,
+        avatar: this.avatar || '',
+        email: this.email || '',
         phone: this.phone || '',
         address: this.address || '',
-        role: this.role || 1,
+        role: this.role || '',
         payment: this.payment || '',
       },
       width: '600px',
@@ -167,17 +166,22 @@ export class TableUsersComponent {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       data: {
         name: currentUser.name || '',
-        avatar: currentUser.avatar || 0,
-        email: currentUser.email || 0,
+        avatar: currentUser.avatar || '',
+        email: currentUser.email || '',
         phone: currentUser.phone || '',
         address: currentUser.address || '',
-        role: currentUser.role || 1,
+        role: currentUser.role || '',
+        userRole: currentUser.role || 'subadmin',
         payment: currentUser.payment || '',
         password: currentUser.password || '',
         _id: currentUser._id || '',
       },
       width: '600px',
     });
+
+    this.store.dispatch(
+      UsersActions.startEditUser({ id: currentUser._id || '' })
+    );
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);

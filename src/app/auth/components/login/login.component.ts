@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ import { AuthApiActions } from '../../store/auth.actions';
   ],
 })
 export class LoginComponent {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
@@ -45,6 +46,8 @@ export class LoginComponent {
       this.store.dispatch(
         AuthApiActions.login({ loginData: this.loginForm.value })
       );
+      console.log('router to dashboard ');
+      this.router.navigate(['admin', 'dashboard']);
     }
   }
   // @Input() error: string | null;

@@ -8,7 +8,7 @@ export const UsersActions = createActionGroup({
     'Add User': props<{ user: IUser }>(), // Updated action name and property
     'Remove User': props<{ id: string }>(), // Updated action name and property
     'Start Edit User': props<{ id: string }>(), // Updated action name and property
-    'Reset User': () => ({ payload: {} }), // Updated action name and property
+    'Reset User': () => ({ payload: {} }), // Updated action name and property,
   },
 });
 

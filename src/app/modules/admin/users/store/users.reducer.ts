@@ -107,6 +107,8 @@ export const usersReducer = createReducer(
     error: error,
   })),
   on(UsersActions.startEditUser, (state, { id }) => {
+    console.log('start edit user:', id);
+
     // Updated action name
     return {
       ...state,

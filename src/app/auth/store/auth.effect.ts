@@ -6,13 +6,15 @@ import { of } from 'rxjs';
 import { AuthApiActions } from './auth.actions'; // Updated import
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService, // Updated service name
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   login$ = createEffect(() =>
@@ -25,6 +27,8 @@ export class AuthEffects {
             this.toastr.success('Login', 'Login Successfully');
 
             console.log('login response: ', loginResponse);
+
+            this.router.navigate(['admin', 'dashboard']);
 
             return AuthApiActions.loginSuccess({
               loginData: loginResponse, // Updated property name
@@ -49,7 +53,11 @@ export class AuthEffects {
       switchMap((action) =>
         this.authService.signUp(action.signupData).pipe(
           map((orderResponse) => {
-            this.toastr.success('Register', 'Register successfully!');
+            this.toastr.success(
+              'Register',
+              'Register successfully! Go to Login '
+            );
+            this.router.navigate(['admin', 'login']);
 
             return AuthApiActions.registerSuccess({
               signupData: orderResponse,
