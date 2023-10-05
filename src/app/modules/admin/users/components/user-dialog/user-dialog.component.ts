@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -20,6 +21,7 @@ import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { selectEditingUserId, selectUsers } from '../../store/users.selectors';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-dialog',
@@ -45,7 +47,8 @@ export class UserDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IUser,
-    private store: Store
+    private store: Store,
+    private toastr: ToastrService
   ) {
     this.store.select(selectUsers).subscribe((users) => {
       this.store.select(selectEditingUserId).subscribe((userId) => {
@@ -56,14 +59,14 @@ export class UserDialogComponent {
   }
 
   userForm = new FormGroup({
-    name: new FormControl(this.data.name),
-    avatar: new FormControl(this.data.avatar),
-    phone: new FormControl(this.data.phone),
-    email: new FormControl(this.data.email),
-    address: new FormControl(this.data.address),
-    payment: new FormControl(this.data.payment),
+    name: new FormControl(this.data.name, [Validators.required]),
+    avatar: new FormControl(this.data.avatar, [Validators.required]),
+    phone: new FormControl(this.data.phone, [Validators.required]),
+    email: new FormControl(this.data.email, [Validators.required]),
+    address: new FormControl(this.data.address, [Validators.required]),
+    payment: new FormControl(this.data.payment, [Validators.required]),
     role: new FormControl(this.data.role),
-    password: new FormControl(''),
+    password: new FormControl('', [Validators.required]),
     // _id: new FormControl(this.data._id),
   });
 
@@ -74,7 +77,10 @@ export class UserDialogComponent {
   onSubmit() {
     console.log('save submitted!', this.userForm.value);
 
-    console.log(this.data);
+    if (this.userForm.invalid) {
+      this.toastr.error('Form invalid!', 'Some field went wrong!');
+      return;
+    }
 
     // Async dispatch here ???
     const formData: Omit<IUser, '_id'> = {
@@ -84,7 +90,7 @@ export class UserDialogComponent {
       phone: this.userForm.value.phone as string,
       address: this.userForm.value.address as string,
       payment: this.userForm.value.payment as string,
-      role: this.userForm.value.role as string,
+      role: this.userRole.value as string,
       password: this.userForm.value.password as string,
       providerId: 'local',
     };

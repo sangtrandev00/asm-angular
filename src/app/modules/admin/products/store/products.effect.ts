@@ -46,7 +46,7 @@ export class ProductEffects {
 
             return ProductsApiActions.addProductSuccess({
               // Updated action name
-              product: action.product, // Updated property name
+              product: newProductResponse.product, // Updated property name
             });
           }),
           catchError((error) => {

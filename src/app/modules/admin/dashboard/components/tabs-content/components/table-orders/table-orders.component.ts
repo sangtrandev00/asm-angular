@@ -18,6 +18,7 @@ import { OrderService } from 'src/app/core/services/order.service';
 import { IOrder } from 'src/app/models/Order';
 import { OrdersApiActions } from 'src/app/modules/admin/orders/store/orders.actions';
 import { selectOrders } from 'src/app/modules/admin/orders/store/orders.selectors';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-table-orders',
@@ -167,11 +168,11 @@ export class TableOrdersComponent {
   }
 
   openConfirmDialog(orderId: string) {
-    // this.confirmDialog.open(ConfirmDialogComponent, {
-    //   width: '250px',
-    //   data: {
-    //     _id: orderId,
-    //   },
-    // });
+    this.confirmDialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {
+        _id: orderId,
+      },
+    });
   }
 }

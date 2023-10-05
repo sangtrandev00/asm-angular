@@ -39,6 +39,7 @@ export class HeaderComponent {
   logout() {
     window.alert('Logout successfully!');
     this.store.dispatch(AuthActions.setUnAuthenticated());
+    this.router.navigate(['/auth/login']);
   }
 
   navigateTo(routePath: string) {

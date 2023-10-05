@@ -62,13 +62,16 @@ export const productsReducer = createReducer(
   })), // Set loading to true on API request
   on(ProductsApiActions.updateProductSuccess, (state, { product }) => {
     // Updated action name
+
+    const productIndex = state.products.findIndex(
+      (prod) => prod._id === product._id
+    );
+    const updatedProducts = [...state.products];
+    updatedProducts[productIndex] = product;
+
     return {
       ...state,
-      products: state.products.map(
-        (
-          prod // Updated property name
-        ) => (prod._id === product._id ? product : prod) // Updated property name
-      ),
+      products: updatedProducts,
       isLoading: false,
     };
   }),

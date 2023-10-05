@@ -7,7 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { IOrder } from 'src/app/models/Order';
-import { OrdersApiActions } from '../../store/orders.actions';
+import { OrdersApiActions } from 'src/app/modules/admin/orders/store/orders.actions';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -29,8 +29,6 @@ export class ConfirmDialogComponent {
     // console.log('product Id: ', this.data);
 
     const orderId = this.data._id as string;
-
-    // console.log('product Id: ', orderId);
 
     this.store.dispatch(OrdersApiActions.deleteOrder({ id: orderId }));
   }

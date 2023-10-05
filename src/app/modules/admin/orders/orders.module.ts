@@ -7,8 +7,13 @@ import { TableOrdersComponent } from './components/table-orders/table-orders.com
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { CurrencyPipe } from '@angular/common';
 @NgModule({
-  declarations: [OrdersComponent, ConfirmDialogComponent],
-  imports: [CommonModule, OrdersRoutingModule, TableOrdersComponent],
+  declarations: [OrdersComponent],
+  imports: [
+    CommonModule,
+    OrdersRoutingModule,
+    TableOrdersComponent,
+    ConfirmDialogComponent,
+  ],
   providers: [CurrencyPipe, DatePipe],
 })
 export class OrdersModule {}

@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="isDashboardLoading"></mat-spinner>
 <div *ngIf="!isDashboardLoading" class="container">
-    <h2>Dashboard Overview</h2>
+    <h2 class="p-2 bg-warning">Dashboard Overview</h2>
     <div class="row">
         <div class="col-md-3 mt-2">
             <app-summary-item (report)="reports.totalRevenue" name="Total Revenue"></app-summary-item>

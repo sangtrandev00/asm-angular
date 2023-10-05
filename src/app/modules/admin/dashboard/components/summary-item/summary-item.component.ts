@@ -24,14 +24,9 @@ export class SummaryItemComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
-    console.log('reports: ', this.report);
-    console.log('name: ', this.name);
     this.image = this.transformImage(this.name);
 
     this.store.select(selectReports).subscribe((reports) => {
-      console.log('reports from store ', reports);
-      console.log('name: ', this.name);
-
       if (this.name === 'Orders') {
         this.report = reports.orders;
       } else if (this.name === 'Total Revenue') {

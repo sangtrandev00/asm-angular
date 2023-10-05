@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import { SummaryItemComponent } from './components/summary-item/summary-item.component';
 import { TabsContentComponent } from './components/tabs-content/tabs-content.component';
 import { TableOrdersComponent } from './components/tabs-content/components/table-orders/table-orders.component';
+import { ConfirmDialogComponent } from './components/tabs-content/components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [],

@@ -92,7 +92,16 @@ export class TableUsersComponent {
     this.store.select(selectUsers).subscribe((users) => {
       console.log('data: ', users);
 
-      this.dataSource = new MatTableDataSource(users);
+      const transformUsers = users.map((user) => {
+        return {
+          ...user,
+          avatar: user?.avatar?.startsWith('http')
+            ? user.avatar
+            : `${BACKEND_DOMAIN}/${user.avatar}`,
+        };
+      });
+
+      this.dataSource = new MatTableDataSource(transformUsers as IUser[]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -104,16 +113,6 @@ export class TableUsersComponent {
 
   ngOnInit() {
     this.userService.getUsers().subscribe((data) => {
-      console.log(data.users);
-
-      this.dataSource = new MatTableDataSource(data.users);
-      console.log('data source: ', this.dataSource);
-      console.log('paginator: ', this.dataSource.paginator);
-      console.log('this paginator: ', this.paginator);
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
       this.store.dispatch(UsersApiActions.getUserList({ users: data.users }));
     });
   }
@@ -171,7 +170,7 @@ export class TableUsersComponent {
         phone: currentUser.phone || '',
         address: currentUser.address || '',
         role: currentUser.role || '',
-        userRole: currentUser.role || 'subadmin',
+        userRole: currentUser.role || '',
         payment: currentUser.payment || '',
         password: currentUser.password || '',
         _id: currentUser._id || '',

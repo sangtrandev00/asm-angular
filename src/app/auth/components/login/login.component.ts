@@ -46,8 +46,7 @@ export class LoginComponent {
       this.store.dispatch(
         AuthApiActions.login({ loginData: this.loginForm.value })
       );
-      console.log('router to dashboard ');
-      this.router.navigate(['admin', 'dashboard']);
+     
     }
   }
   // @Input() error: string | null;
