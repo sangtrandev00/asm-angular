@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/auth.actions';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,7 @@ import { AuthApiActions } from '../../store/auth.actions';
   ],
 })
 export class RegisterComponent {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private toastr: ToastrService) {}
 
   registerForm: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -40,10 +41,14 @@ export class RegisterComponent {
   submit() {
     console.log(this.registerForm.value);
 
-    this.store.dispatch(
-      AuthApiActions.register({
-        signupData: this.registerForm.value,
-      })
-    );
+    if (this.registerForm.valid) {
+      this.store.dispatch(
+        AuthApiActions.register({
+          signupData: this.registerForm.value,
+        })
+      );
+    } else {
+      this.toastr.error('Please check your input');
+    }
   }
 }

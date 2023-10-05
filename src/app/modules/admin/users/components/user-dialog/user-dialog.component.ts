@@ -66,7 +66,7 @@ export class UserDialogComponent {
     address: new FormControl(this.data.address, [Validators.required]),
     payment: new FormControl(this.data.payment, [Validators.required]),
     role: new FormControl(this.data.role),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl(''),
     // _id: new FormControl(this.data._id),
   });
 
