@@ -18,6 +18,7 @@ import { DatePipe, NgIf } from '@angular/common';
 import { selectLoading, selectOrders } from '../../store/orders.selectors';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
 
 @Component({
   selector: 'app-table-orders',
@@ -170,25 +171,17 @@ export class TableOrdersComponent {
   openEditModal(currentProduct: IOrder) {
     console.log('current product: ', currentProduct);
 
-    // const dialogRef = this.dialog.open(ProductDialogComponent, {
-    //   data: {
-    //     name: currentProduct.name || '',
-    //     oldPrice: currentProduct.oldPrice || 0,
-    //     discount: currentProduct.discount || 0,
-    //     images: currentProduct.images || '',
-    //     thumbnail: currentProduct.thumbnail || '',
-    //     stockQty: currentProduct.stockQty || 1,
-    //     shortDesc: currentProduct.shortDesc || '',
-    //     fullDesc: currentProduct.fullDesc || '',
-    //     _id: currentProduct._id || '',
-    //   },
-    //   width: '600px',
-    // });
+    const dialogRef = this.dialog.open(OrderDialogComponent, {
+      data: {
+        _id: currentProduct._id || '',
+      },
+      width: '600px',
+    });
 
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed', result);
-    //   // this.product = result;
-    // });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      // this.product = result;
+    });
   }
 
   openConfirmDialog(orderId: string) {

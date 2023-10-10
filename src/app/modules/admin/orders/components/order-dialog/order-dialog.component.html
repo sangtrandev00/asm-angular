@@ -1,0 +1,84 @@
+<!-- <h1 mat-dialog-title> This is product form {{data.name}}</h1>
+<div mat-dialog-content>
+    <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
+        <p>Product Categories</p>
+        <mat-form-field class="order-form">
+            <mat-label>Product Categories</mat-label>
+            <mat-select formControlName="categoryId" className="order-form__input">
+                <mat-option *ngFor="let cate of categories" [value]="cate._id">
+                    {{cate.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <p>Product Name:</p>
+        
+        <mat-form-field class="order-form">
+            <mat-label>Product Name:</mat-label>
+            <input className="order-form__input" matInput formControlName="name">
+
+        </mat-form-field>
+        <p>Product Price:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Product Price:</mat-label>
+            <input className="order-form__input" matInput formControlName="oldPrice">
+
+        </mat-form-field>
+        <p>Product Qty:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Product Qty:</mat-label>
+            <input className="order-form__input" matInput formControlName="stockQty">
+
+        </mat-form-field>
+
+        <p>Discount:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Discount:</mat-label>
+            <input className="order-form__input" matInput formControlName="discount">
+
+        </mat-form-field>
+
+        <p>Images:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Images:</mat-label>
+            <input className="order-form__input" matInput formControlName="images">
+
+        </mat-form-field>
+        <p>Thumbnail:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Thumbnail:</mat-label>
+            <input className="order-form__input" matInput formControlName="thumbnail">
+
+        </mat-form-field>
+
+        <p>Stock Qty:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Stock Qty:</mat-label>
+            <input className="order-form__input" matInput formControlName="stockQty">
+
+        </mat-form-field>
+
+        <p>Short Desc:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Short Desc:</mat-label>
+            <input className="order-form__input" matInput formControlName="shortDesc">
+
+        </mat-form-field>
+
+        <p>Full Desc:</p>
+        <mat-form-field class="order-form">
+            <mat-label>Full Desc:</mat-label>
+            <input className="order-form__input" matInput formControlName="fullDesc">
+
+        </mat-form-field>
+
+
+        <div>
+            <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+</div> -->
