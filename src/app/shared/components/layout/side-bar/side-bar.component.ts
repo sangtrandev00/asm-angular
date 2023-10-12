@@ -9,7 +9,12 @@ import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Store } from '@ngrx/store';
-import { selectCurrentRole } from 'src/app/auth/store/auth.selectors';
+import {
+  selectCurrentRole,
+  selectToken,
+} from 'src/app/auth/store/auth.selectors';
+import { UsersApiActions } from 'src/app/modules/admin/users/store/users.actions';
+import { selectCurrentUser } from 'src/app/modules/admin/users/store/users.selectors';
 
 @Component({
   selector: 'app-side-bar',
@@ -28,12 +33,25 @@ import { selectCurrentRole } from 'src/app/auth/store/auth.selectors';
 })
 export class SideBarComponent {
   links = [1, 2, 3, 4];
-  currentRole = '';
+  currentRole = 'admin';
   constructor(
     private route: Router,
     private jwtHelper: JwtHelperService,
     private store: Store
-  ) {}
+  ) {
+    this.store.select(selectToken).subscribe((token) => {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+
+      console.log('decodedToken: ', decodedToken);
+
+      this.store.dispatch(
+        UsersApiActions.getUserById({ userId: decodedToken.userId })
+      );
+      this.store.select(selectCurrentUser).subscribe((user) => {
+        this.currentRole = user?.role || 'admin';
+      });
+    });
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

@@ -15,10 +15,11 @@ export const selectCurrentUser = createSelector(selectAuthState, (state) => {
 });
 
 export const selectCurrentUserId = createSelector(selectAuthState, (state) => {
-  const jwtHelper = inject(JwtHelperService);
-  const token = state.token;
-  const { userId } = jwtHelper.decodeToken(token);
-  return userId; // Updated property name
+  return state.userId; // Updated property name
+});
+
+export const selectToken = createSelector(selectAuthState, (state) => {
+  return state.token; // Updated property name
 });
 
 export const selectIsAuth = createSelector(selectAuthState, (state) => {

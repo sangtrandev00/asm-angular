@@ -24,6 +24,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-table-users',
@@ -82,7 +83,8 @@ export class TableUsersComponent {
     public dialog: MatDialog,
     public confirmDialog: MatDialog,
     private store: Store,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private jwtHelper: JwtHelperService
   ) {
     // Create 100 users
     // const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
@@ -109,6 +111,15 @@ export class TableUsersComponent {
     this.store.select(selectLoading).subscribe((isLoading) => {
       this.isUsersLoading = isLoading;
     });
+
+    const token = localStorage.getItem('token') as string;
+
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      this.store.dispatch(
+        UsersApiActions.getUserById({ userId: decodedToken.userId })
+      );
+    }
   }
 
   ngOnInit() {

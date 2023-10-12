@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BACKEND_DOMAIN } from 'src/app/constant/base-url';
@@ -19,7 +19,17 @@ export interface getCategoryResponse {
   providedIn: 'root',
 })
 export class CategoryService {
+  token = localStorage.getItem('token') as string;
   constructor(private http: HttpClient) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      Authorization: `Bearer ${this.token}`,
+    }),
+  };
 
   getCategories(): Observable<getCategoriesResponse> {
     return this.http

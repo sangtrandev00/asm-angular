@@ -46,10 +46,10 @@
         <ng-container matColumnDef="Actions">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-raised-button color="accent" (click)="openEditModal(row)"><mat-icon class="custom-icon">
+                <!-- <button mat-raised-button color="accent" (click)="openEditModal(row)"><mat-icon class="custom-icon">
                         edit </mat-icon></button>
                 <button class="ms-2" mat-raised-button color="primary" (click)="openEditModal(row)"><mat-icon
-                        class="custom-icon">remove_red_eye</mat-icon></button>
+                        class="custom-icon">remove_red_eye</mat-icon></button> -->
                 <button class="ms-2" mat-raised-button color="warn" (click)="openConfirmDialog(row._id)"><mat-icon
                         class="custom-icon">delete</mat-icon></button>
                 <!-- <button mat-raised-button (click)="openConfirmDialog(row._id)">Open dialog without

@@ -9,6 +9,8 @@ import { CategoryDialogComponent } from './components/category-dialog/category-d
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from 'src/app/middleware/jwtInterceptor';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,13 @@ import { MatIconModule } from '@angular/material/icon';
     CategoryDialogComponent,
     // CategoryDialogComponent,
     // ConfirmDialogComponent,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
   ],
 })
 export class CategoriesModule {}

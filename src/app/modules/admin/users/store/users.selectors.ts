@@ -11,6 +11,11 @@ export const selectUsers = createSelector(
   (state) => state.users // Updated property name
 );
 
+export const selectCurrentUser = createSelector(
+  selectUserState,
+  (state) => state.user // Updated property name
+);
+
 export const selectLoading = createSelector(
   selectUserState,
   (state) => state.isLoading

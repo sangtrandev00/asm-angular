@@ -40,7 +40,14 @@ export class AuthEffects {
               AuthActions.setCurrentRole({ role: currentRole })
             );
 
-            this.router.navigate(['admin', 'dashboard']);
+            localStorage.setItem('token', loginResponse.token);
+            localStorage.setItem('userId', loginResponse.userId);
+
+            if (currentRole === 'admin') {
+              this.router.navigate(['admin', 'dashboard']);
+            } else {
+              this.router.navigate(['admin', 'categories']);
+            }
 
             return AuthApiActions.loginSuccess({
               loginData: loginResponse, // Updated property name

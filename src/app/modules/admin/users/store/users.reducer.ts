@@ -8,6 +8,7 @@ export interface UserState {
   isLoading: boolean;
   error: any;
   editingUserId: string; // Updated property name
+  user: IUser | null;
 }
 
 export const initialState: UserState = {
@@ -15,6 +16,7 @@ export const initialState: UserState = {
   isLoading: false,
   error: null,
   editingUserId: '', // Updated property name
+  user: null,
 };
 
 export const usersReducer = createReducer(
@@ -35,6 +37,28 @@ export const usersReducer = createReducer(
     };
   }),
   on(UsersApiActions.getUserListFailure, (_state, { error }) => {
+    // Updated action name
+    return {
+      ...initialState,
+      isLoading: false, // Updated property name
+      error: error,
+    };
+  }),
+  on(UsersApiActions.getUserById, (_state) => {
+    // Updated action name
+    return {
+      ...initialState,
+      isLoading: true,
+    };
+  }),
+  on(UsersApiActions.getUserByIdSuccess, (_state, { user }) => {
+    // Updated action name
+    return {
+      ...initialState,
+      user, // Updated property name
+    };
+  }),
+  on(UsersApiActions.getUserByIdFailure, (_state, { error }) => {
     // Updated action name
     return {
       ...initialState,

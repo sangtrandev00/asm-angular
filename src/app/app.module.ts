@@ -1,6 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +33,7 @@ import { AuthEffects } from './auth/store/auth.effect';
 import { JwtModule } from '@auth0/angular-jwt';
 import { dashboardReducer } from './modules/admin/dashboard/store/dashboard.reducer';
 import { DashboardEffects } from './modules/admin/dashboard/store/dasbboard.effect';
+import { JwtInterceptor } from './middleware/jwtInterceptor';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -89,7 +90,14 @@ export function tokenGetter() {
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [CurrencyPipe],
+  providers: [
+    CurrencyPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

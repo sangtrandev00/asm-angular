@@ -2,6 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { AuthActions, AuthApiActions } from './auth.actions'; // Updated import
 import { IOrder } from 'src/app/models/Order'; // Assuming you have an IOrder interface for orders.
 import { IUser } from 'src/app/models/User';
+import { inject } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface AuthState {
   // Updated interface name
@@ -36,8 +38,6 @@ export const authReducer = createReducer(
     isLoading: true,
   })), // Set loading to true on API request
   on(AuthApiActions.loginSuccess, (state, { loginData }) => {
-    localStorage.setItem('token', loginData.token);
-
     // Updated action name
     return {
       ...state,
