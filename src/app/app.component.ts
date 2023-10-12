@@ -19,11 +19,6 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    console.log(
-      'this.jwtHelper.isTokenExpired(): ',
-      this.jwtHelper.isTokenExpired()
-    ); // true or false
-
     const token = localStorage.getItem('token') as string;
 
     console.log(
