@@ -88,5 +88,11 @@ export const authReducer = createReducer(
       ...state,
       isAuth: true,
     };
+  }),
+  on(AuthActions.setCurrentRole, (state, { role }) => {
+    return {
+      ...state,
+      role: role,
+    };
   })
 );

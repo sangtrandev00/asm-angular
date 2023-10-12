@@ -46,10 +46,13 @@ export class LoginComponent {
       this.store.dispatch(
         AuthApiActions.login({ loginData: this.loginForm.value })
       );
-     
     }
   }
   // @Input() error: string | null;
+
+  navigateTo(routePath: string) {
+    this.router.navigate([routePath]);
+  }
 
   @Output() submitEM = new EventEmitter();
 }

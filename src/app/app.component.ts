@@ -21,18 +21,12 @@ export class AppComponent {
   ngOnInit() {
     const token = localStorage.getItem('token') as string;
 
-    console.log(
-      'this.jwtHelper.decodeToken(token): ',
-      this.jwtHelper.decodeToken(token)
-    ); // token); // token
-
     if (this.jwtHelper.isTokenExpired()) {
       console.log('token expired');
 
       this.store.dispatch(AuthActions.setUnAuthenticated());
     } else {
       console.log('token not expired');
-
       this.store.dispatch(AuthActions.setAuthenticated());
     }
   }

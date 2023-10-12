@@ -20,8 +20,9 @@
                     {{ error }}
                 </p> -->
 
-                <div class="button">
+                <div class="button d-flex justify-content-between">
                     <button type="submit" mat-raised-button color="primary">Login</button>
+                    <a class="btn btn-outline-success" (click)="navigateTo('/auth/register')">Register here</a>
                 </div>
 
             </form>

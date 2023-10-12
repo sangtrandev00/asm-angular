@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Store } from '@ngrx/store';
+import { selectCurrentRole } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-side-bar',
@@ -25,8 +28,21 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent {
   links = [1, 2, 3, 4];
+  currentRole = '';
+  constructor(
+    private route: Router,
+    private jwtHelper: JwtHelperService,
+    private store: Store
+  ) {}
 
-  constructor(private route: Router) {}
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+    this.store.select(selectCurrentRole).subscribe((currentRole) => {
+      this.currentRole = currentRole;
+    });
+  }
 
   navigateTo(routePath: string) {
     this.route.navigate([routePath]);

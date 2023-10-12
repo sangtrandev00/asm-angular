@@ -28,15 +28,20 @@ export const selectIsAuth = createSelector(selectAuthState, (state) => {
 });
 
 // Role for authorization
-export const selectCurrentRole = createSelector(selectAuthState, (state) => {
-  console.log('state: ', state);
+// export const selectCurrentRole = createSelector(selectAuthState, (state) => {
+//   console.log('state: ', state);
 
-  return state.isAuth; // Updated property name
-});
+//   return state.isAuth; // Updated property name
+// });
 
 export const selectLoading = createSelector(
   selectAuthState,
   (state) => state.isLoading
+);
+
+export const selectCurrentRole = createSelector(
+  selectAuthState,
+  (state) => state.role
 );
 
 // export const selectEditingOrderId = createSelector(

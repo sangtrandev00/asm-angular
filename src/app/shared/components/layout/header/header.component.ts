@@ -3,10 +3,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Store } from '@ngrx/store';
-import { AuthActions } from 'src/app/auth/store/auth.actions';
+import { AuthActions, AuthApiActions } from 'src/app/auth/store/auth.actions';
 import { Route, Router } from '@angular/router';
-import { selectIsAuth } from 'src/app/auth/store/auth.selectors';
+import {
+  selectCurrentUserId,
+  selectIsAuth,
+} from 'src/app/auth/store/auth.selectors';
 import { NgIf } from '@angular/common';
+import { UsersApiActions } from 'src/app/modules/admin/users/store/users.actions';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,9 +22,14 @@ export class HeaderComponent {
   @Output() toggleSideBarEvent = new EventEmitter();
 
   isAuth: boolean = false;
-
+  name: string = 'Sang';
   constructor(private store: Store, private router: Router) {
     console.log('is auth form constructor ?', this.isAuth);
+
+    // Get userId:
+    this.store.select(selectCurrentUserId).subscribe((userId) => {
+      this.store.dispatch(UsersApiActions.getUserById({ userId: userId }));
+    });
   }
 
   ngOnInit(): void {

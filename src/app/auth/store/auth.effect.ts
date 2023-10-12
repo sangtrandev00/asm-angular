@@ -3,10 +3,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { AuthApiActions } from './auth.actions'; // Updated import
+import { AuthActions, AuthApiActions } from './auth.actions'; // Updated import
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthEffects {
@@ -14,7 +16,9 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService, // Updated service name
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private jwtHelper: JwtHelperService,
+    private store: Store
   ) {}
 
   login$ = createEffect(() =>
@@ -27,6 +31,14 @@ export class AuthEffects {
             this.toastr.success('Login', 'Login Successfully');
 
             console.log('login response: ', loginResponse);
+
+            const currentRole = this.jwtHelper.decodeToken(
+              loginResponse.token
+            ).role;
+
+            this.store.dispatch(
+              AuthActions.setCurrentRole({ role: currentRole })
+            );
 
             this.router.navigate(['admin', 'dashboard']);
 

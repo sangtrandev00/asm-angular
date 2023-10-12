@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/auth.actions';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,11 @@ import { ToastrService } from 'ngx-toastr';
   ],
 })
 export class RegisterComponent {
-  constructor(private store: Store, private toastr: ToastrService) {}
+  constructor(
+    private store: Store,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   registerForm: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -50,5 +55,9 @@ export class RegisterComponent {
     } else {
       this.toastr.error('Please check your input');
     }
+  }
+
+  navigateTo(routePath: string) {
+    this.router.navigate([routePath]);
   }
 }

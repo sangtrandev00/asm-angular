@@ -1,6 +1,6 @@
 <mat-nav-list class="sidebar">
-    <a mat-list-item (click)="navigateTo('/admin/dashboard')" routerLink="/admin/dashboard"
-        routerLinkActive="activeRoute" ariaCurrentWhenActive="page">
+    <a *ngIf="currentRole === 'admin'" mat-list-item (click)="navigateTo('/admin/dashboard')"
+        routerLink="/admin/dashboard" routerLinkActive="activeRoute" ariaCurrentWhenActive="page">
         <span matListItemTitle>Dashboard</span>
         <span>Report center</span>
     </a>
@@ -19,8 +19,8 @@
         <span matListItemTitle>Orders</span>
         <span>Orders List</span>
     </a>
-    <a mat-list-item (click)="navigateTo('/admin/users')" routerLink="/admin/users" routerLinkActive="activeRoute"
-        ariaCurrentWhenActive="page">
+    <a *ngIf="currentRole === 'admin'" mat-list-item (click)="navigateTo('/admin/users')" routerLink="/admin/users"
+        routerLinkActive="activeRoute" ariaCurrentWhenActive="page">
         <span matListItemTitle>Users</span>
         <span>Users List</span>
     </a>

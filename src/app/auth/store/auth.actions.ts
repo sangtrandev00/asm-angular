@@ -11,6 +11,7 @@ export const AuthActions = createActionGroup({
     // 'Reset Order': () => ({ payload: {} }), // Updated action name and property
     setUnAuthenticated: () => ({ payload: {} }), // set unauthenticated
     setAuthenticated: () => ({ payload: {} }), // set unauthenticated
+    'Set Current Role': props<{ role: string }>(), // Updated action name and property
   },
 });
 
