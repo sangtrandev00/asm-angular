@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { selectIsAuth } from 'src/app/auth/store/auth.selectors';
 
 export const authGuard: CanActivateFn = (route, state) => {
+  
   const authService = inject(AuthService); // Tại sao phải inject mà không phải khởi tạo lại
   const router = inject(Router);
   const store = inject(Store);

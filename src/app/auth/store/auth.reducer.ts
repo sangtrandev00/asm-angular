@@ -9,6 +9,7 @@ export interface AuthState {
   user: IUser | null; // Updated property name
   isAuth: boolean;
   isLoading: boolean;
+  role: string;
   error: any;
   token: string;
 }
@@ -23,6 +24,7 @@ export const initialState: AuthState = {
   isLoading: false,
   error: null,
   token: localToken || '',
+  role: '',
 };
 
 export const authReducer = createReducer(
