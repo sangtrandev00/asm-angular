@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/auth.actions';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -30,11 +32,15 @@ import { Router } from '@angular/router';
   ],
 })
 export class LoginComponent {
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
   submit() {
@@ -46,6 +52,8 @@ export class LoginComponent {
       this.store.dispatch(
         AuthApiActions.login({ loginData: this.loginForm.value })
       );
+    } else {
+      this.toastr.error('Email or password is wrong! Please try it again!');
     }
   }
   // @Input() error: string | null;

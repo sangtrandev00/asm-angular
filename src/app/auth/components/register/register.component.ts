@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,9 +39,9 @@ export class RegisterComponent {
   ) {}
 
   registerForm: FormGroup = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
   submit() {
@@ -53,7 +54,7 @@ export class RegisterComponent {
         })
       );
     } else {
-      this.toastr.error('Please check your input');
+      this.toastr.error('Please check your input of register');
     }
   }
 
