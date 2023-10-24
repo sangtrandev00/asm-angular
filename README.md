@@ -2,7 +2,16 @@
 
 
 # NgAsm - MY ANGULAR PROJECTS - https://trannhatsang.com
-## 1. Introuction
+
+## How to view at my project ?
++ Go to website: https://ecommerce-dashboard.shop
++ Login with email and password:
+    + Email: nhatsang0101@gmail.com
+    + Password: 123456
++ After login 
+
+
+## 1. Introduction
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
 ## 2. Technologies in use: 
@@ -10,7 +19,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 + Angular, Angular Material, Angular NGRX (Redux), Bootstrap 5, TypeScript
 
 
-## 3. How to use this projects ????
+## 3. How to use this projects at local
 ### Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
